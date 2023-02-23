@@ -19,8 +19,8 @@ export default function Navbar(){
       </div>
 
       <div className={styles.nav_tabs_container}>
-        <Link href="/Store" className={styles.nav_tab}>Store</Link>
-        <Link href="/Account" className={styles.nav_tab}>Account</Link>
+        <p className={styles.nav_tab}><Link href="/Store" className={styles.nav_tab}>Store</Link></p>
+        <p className={styles.nav_tab}><Link href="/Account" className={styles.nav_tab}>Account</Link></p>
       </div>
     </div>
   )
