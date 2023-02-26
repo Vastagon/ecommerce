@@ -7,9 +7,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model items {
-  user_id Int @id @default(1)
-  name String
+  id        String @id
+  name      String
   imagePath String
+  rating    Int
+  price     Int
 }
