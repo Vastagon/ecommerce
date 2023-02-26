@@ -1,5 +1,5 @@
 .store_page_card{
-    
+    width: 20vw;
 }
 .store_page_card_container{
     margin-top: 5%;
@@ -11,4 +11,8 @@
     justify-items: center;
     align-content: space-evenly;
     align-items: center;
+}
+.card_image{
+    border-radius: 10px 10px 0 0;
+    width: 100%;
 }

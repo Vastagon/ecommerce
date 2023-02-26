@@ -16,6 +16,18 @@ export async function getServerSideProps(){
 }
 
 
+async function buttonClicked(){
+    ///Make a request to server and have the server add the item
+
+    // const item = await prisma.items.create({
+    //     data:{
+    //         imagePath: "NJDASNJK",
+    //         name: "Jacob",
+    //         user_id: 1
+    //     }
+    // })
+}
+
 export default function Store(props: any){
     console.log(props.items)
     const cards = props.items.map((prev: { name: string; imagePath: string; }) => {
@@ -31,6 +43,7 @@ export default function Store(props: any){
     return (
         <main className={styles.store_page_card_container}>
             {cards}
+            <button onClick={buttonClicked}>Button</button>
         </main>
     )
 }
