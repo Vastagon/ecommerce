@@ -14,3 +14,8 @@ model items {
   rating    Int
   price     Int
 }
+
+model users {
+  id       String @id
+  username String
+}
