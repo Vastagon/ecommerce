@@ -7,12 +7,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
 model items {
-  id        String @id
-  name      String
-  imagePath String
-  rating    Int
-  price     Int
+  id Int @id
+  title String
+  price Float
+  description String
+  category String
+  image String
+  rating Float
+  count Float
 }
 
 model users {

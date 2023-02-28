@@ -19,18 +19,17 @@ export async function getServerSideProps(){
 
 async function buttonClicked(){
     ///Make a request to server and have the server add the item
-    const res = await axios.post("http://localhost:3000/api/getItems", {name: "NAME"})
-    // const res = await axios.post("http://localhost:3000/api/items")
+    const res = await axios.post("http://localhost:3000/api/getItems", {title: "NAME"})
     console.log(res.data)
 }
 
 export default function Store(props: any){
-    const cards = props.items.map((prev: { name: string; imagePath: string; }) => {
+    const cards = props.items.map((prev: { title: string; image: string; }) => {
         return(
             <ShoppingPageCard 
-            key={uuid()}
-            name= {prev.name}
-            imagePath={prev.imagePath}
+                key={uuid()}
+                title= {prev.title}
+                image={prev.image}
             />              
         )
     })

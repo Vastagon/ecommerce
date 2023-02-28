@@ -9,18 +9,19 @@ const prisma = new PrismaClient()
 
 type Data = {
   name: string
+  id: number
 }
 
 async function addItem(){
-  const result = await prisma.items.create({
-    data: {
-      id: uuid(),
-      name: "NAME",
-      rating: 3,
-      imagePath: "https://upload.wikimedia.org/wikipedia/commons/5/5d/Milad_Kharchegani_at_the_2016_Summer_Olympics.jpg",
-      price: 23
-    }
-  })
+  // const result = await prisma.items.create({
+  //   data: {
+  //     id: 312,
+  //     name: "NAME",
+  //     rating: 3,
+  //     imagePath: "https://upload.wikimedia.org/wikipedia/commons/5/5d/Milad_Kharchegani_at_the_2016_Summer_Olympics.jpg",
+  //     price: 23
+  //   }
+  // })
 
 }
 
@@ -29,5 +30,8 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   await addItem()
-  res.status(200).json({ name: 'John Doe' })
+  res.status(200).json({
+    name: 'John Doe',
+    id: 0
+  })
 }

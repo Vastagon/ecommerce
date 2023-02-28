@@ -11,9 +11,10 @@ type Data = {
 }
 
 async function getItem(path: any){
+  console.log(path)
   const result = await prisma.items.findFirst({
     where:{
-        name: path
+      title: path
     }
   })
 
