@@ -1,3 +1,22 @@
 .item_page{
-    
+    display: flex;
+    padding-top: 10%;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+.item_image{
+    width: 30vw;
+    height: 30vw;
+}
+.item_price, .item_description, .rating_div{
+    padding-top: 1rem;
+}
+.item_info{
+    padding-left: 2rem;
+}
+.rating_div{
+    display: flex;
+}
+.rating_number{
+    padding-right: 10%;
 }

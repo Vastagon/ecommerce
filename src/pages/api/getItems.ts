@@ -11,7 +11,6 @@ type Data = {
 }
 
 async function getItem(path: any){
-  console.log(path)
   const result = await prisma.items.findFirst({
     where:{
       title: path
@@ -25,9 +24,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-    const data = req.body
-
-    const response = await getItem(data.name)
-    console.log(response)
-    res.status(200).json({ itemInfo: response })
+  const data = req.body
+  const response = await getItem(data.title)
+  res.status(200).json({ itemInfo: response })
 }

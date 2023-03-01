@@ -13,7 +13,7 @@ export default function ShoppingPageCard(props: ShoppingPageProps){
   const router = useRouter()
 
   function goToItemPage(name: string){
-    router.push(`/${name}`)
+    router.push(`/Store/${name}`)
   }
 
 
