@@ -22,7 +22,7 @@ export default function itemPage(props: itemPageProps){
 
     async function getInfo(itemRoute: any){
         console.log(itemRoute)
-        const res = await axios.post("http://localhost:3000/api/getItems", {title: itemRoute})
+        const res = await axios.post("http://localhost:3000/api/getItems", {id: itemRoute})
         setItems(res.data.itemInfo)
     }
 

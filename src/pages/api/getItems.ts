@@ -10,13 +10,12 @@ type Data = {
   itemInfo: any
 }
 
-async function getItem(path: any){
-  const result = await prisma.items.findFirst({
+async function getItem(path: number){
+  const result = await prisma.items.findUnique({
     where:{
-      title: path
+      id: path
     }
   })
-
   return result
 }
 
@@ -25,6 +24,6 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   const data = req.body
-  const response = await getItem(data.title)
+  const response = await getItem(parseInt(data.id))
   res.status(200).json({ itemInfo: response })
 }

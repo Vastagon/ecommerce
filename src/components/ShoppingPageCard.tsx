@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 type ShoppingPageProps = {
   title: string
   image: string
+  id: number
 }
 
 
@@ -12,13 +13,13 @@ type ShoppingPageProps = {
 export default function ShoppingPageCard(props: ShoppingPageProps){
   const router = useRouter()
 
-  function goToItemPage(name: string){
-    router.push(`/Store/${name}`)
+  function goToItemPage(id: number){
+    router.push(`/Store/${id}`)
   }
 
 
   return (
-    <div onClick={() => goToItemPage(props.title)} className={styles.store_page_card}>
+    <div onClick={() => goToItemPage(props.id)} className={styles.store_page_card}>
       <Image className={styles.card_image} loader={() => props.image} width={100} height={200} alt="Item Image" src={props.image} />
       <p>{props.title}</p>
     </div>

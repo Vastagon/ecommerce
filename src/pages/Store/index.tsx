@@ -24,12 +24,13 @@ async function buttonClicked(){
 }
 
 export default function Store(props: any){
-    const cards = props.items.map((prev: { title: string; image: string; }) => {
+    const cards = props.items.map((prev: { title: string; image: string; id: number }) => {
         return(
             <ShoppingPageCard 
                 key={uuid()}
                 title= {prev.title}
                 image={prev.image}
+                id={prev.id}
             />              
         )
     })
