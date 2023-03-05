@@ -4,14 +4,27 @@ import axios from "axios";
 import {useEffect, useState} from "react"
 import Image from "next/image";
 import Loading from "@/components/Loading";
+import { useSession, signIn, signOut } from "next-auth/react"
 
 type itemPageProps = {
     itemInfo: any
 }
+type itemInfo = {
+    category: string
+    count: number
+    description: string
+    price: number
+    rating: number
+    title: string
+    image: string
+}
 
 export default function itemPage(props: itemPageProps){
     const router = useRouter()
-    const [items, setItems] = useState({category: "", count: 0, description: "", price: 0, rating: 0, title: "", image: ""})
+    const session = useSession()
+    const [item, setItem] = useState<itemInfo>()
+    const [cart, setCart] = useState<Array<string>>([])
+
     useEffect(() =>{
         ///Might be undefined
         if(router.isReady){
@@ -21,28 +34,40 @@ export default function itemPage(props: itemPageProps){
     }, [router.isReady])
 
     async function getInfo(itemRoute: any){
-        console.log(itemRoute)
         const res = await axios.post("http://localhost:3000/api/getItems", {id: itemRoute})
-        setItems(res.data.itemInfo)
+        setItem(res.data.itemInfo)
+    }
+
+    function addToCart(){
+        if(item){
+            if(session){
+                ///Add to DB
+                cart.push(item.title)
+            }else{
+                ///Add to state
+                cart.push(item.title)
+            }            
+        }
+
+        console.log(cart)
     }
 
     ///I can use category for a tag search system
-    console.log(items)
-    if(!items) return <Loading />
+    if(!item) return <Loading />
     return(
         <main className={styles.item_page}>
-            <Image loader={() => items.image} width={100} height={100} src={items.image} className={styles.item_image} alt="ads" />
+            <Image loader={() => item.image} width={100} height={100} src={item.image} className={styles.item_image} alt="ads" />
 
             <div className={styles.item_info}>
-                <h1>{items.title}</h1>
+                <h1>{item.title}</h1>
                 <div className={styles.rating_div}>
-                    <p className={styles.rating_number}>⭐{items.rating}</p>
-                    <p>{items.count} Reviews</p>
+                    <p className={styles.rating_number}>⭐{item.rating}</p>
+                    <p>{item.count} Reviews</p>
                 </div>
-                <p className={styles.item_price}>${items.price}</p>
-                <p className={styles.item_description}>{items.description}</p>
+                <p className={styles.item_price}>${item.price}</p>
+                <p className={styles.item_description}>{item.description}</p>
 
-                <button>Add to Cart</button>
+                <button onClick={addToCart}>Add to Cart</button>
             </div>
         </main>
     )

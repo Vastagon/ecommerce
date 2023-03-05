@@ -2,7 +2,7 @@
     width: 20vw;
 }
 .store_page_card_container{
-    margin-top: 5%;
+    margin-top: 20%;
     display: grid;
     width: 100%;
     grid-template-columns: auto auto auto auto;

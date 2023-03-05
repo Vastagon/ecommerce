@@ -20,6 +20,7 @@ model items {
 }
 
 model users {
-  id       String @id
+  id       String @id @default(cuid())
+  email String @unique
   username String
 }
