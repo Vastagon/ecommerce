@@ -16,7 +16,7 @@
     height: 90%;
     margin-left: 1%;
 }
-.nav_icon:hover{
+.nav_icon:hover, .profile_icon:hover{
     cursor: pointer;
 }
 .nav_tabs_container{
@@ -48,6 +48,6 @@
     border-color: black;
     border-style: solid;
     border-width: 1px;
-    width: 19%;
+    width: auto;
     height: 90%;
 }

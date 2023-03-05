@@ -1,0 +1,12 @@
+.login_page{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.login_form{
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    background-color: aqua;
+    padding: 5%;
+}

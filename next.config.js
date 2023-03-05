@@ -14,8 +14,21 @@ const nextConfig = {
         hostname: 'fakestoreapi.com',
         port: '',
         pathname: '/',
+      },      
+      {
+        protocol: 'https',
+        hostname: 'cdn-icons-png.flaticon.com',
+        port: '',
+        pathname: '/',
       },
-    ],  }
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+        port: '',
+        pathname: '/',
+      },   
+    ],  
+  }
 }
 
 // eslint-disable-next-line no-undef
