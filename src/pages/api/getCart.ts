@@ -8,25 +8,22 @@ type Data = {
   cartNumber: any
 }
 
-async function getCart(email: string){
-  try{
-    const result = await prisma.users.findUnique({
-      where:{
-        email: email
-      }
-    })
+async function getCart(data: any){
+  const result = await prisma.users.findUnique({
+    where:{
+      email: data.email
+    }
+  })
 
+  if(result){
     return result
-  }
-  catch{
-    ///Create new here for user
-    const result = await prisma.users.findUnique({
-      where:{
-        email: email
+  }else{
+    const create = await prisma.users.create({
+      data:{
+        email: data.email,
+        username: data.username
       }
     })
-    
-    return result
   }
 
 }
@@ -36,6 +33,6 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   const data = req.body
-  const response = await getCart(data.email)
+  const response = await getCart(data)
   res.status(200).json({ cartNumber: response })
 }

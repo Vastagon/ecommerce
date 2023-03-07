@@ -18,15 +18,11 @@ export default function Navbar(){
   const [cartNumber, setCartNumber] = useState(0)
 
   async function getCart(){
-    console.log("HERE")
-    console.log(session)
     if(session){
-      console.log("HERE2")
       if(session.user){
         if(session.user.email){
-          console.log("HERE3")
-          const res =  await axios.post("http://localhost:3000/api/getCart", {email: session.user.email})
-          console.log(res.data)
+          console.log(session.user)
+          const res =  await axios.post("http://localhost:3000/api/getCart", {email: session.user.email, username: session.user.name})
           setCartNumber(res.data.cartNumber)
         }
       }
