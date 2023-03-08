@@ -5,7 +5,7 @@ const prisma = new PrismaClient()
 
 
 type Data = {
-  cartNumber: any
+  cart: any
 }
 
 async function getCart(data: any){
@@ -21,7 +21,7 @@ async function getCart(data: any){
     const create = await prisma.users.create({
       data:{
         email: data.email,
-        username: data.username
+        username: data.username,
       }
     })
   }
@@ -34,5 +34,8 @@ export default async function handler(
 ) {
   const data = req.body
   const response = await getCart(data)
-  res.status(200).json({ cartNumber: response })
+
+  if(response){
+    res.status(200).json({ cart: response.cart })
+  }
 }

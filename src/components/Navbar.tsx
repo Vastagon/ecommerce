@@ -15,7 +15,7 @@ export default function Navbar(){
   const router = useRouter()
   const { data: session } = useSession()
   let profileImage = ""
-  const [cartNumber, setCartNumber] = useState(0)
+  const [cart, setCart] = useState([])
 
   async function getCart(){
     if(session){
@@ -23,7 +23,9 @@ export default function Navbar(){
         if(session.user.email){
           console.log(session.user)
           const res =  await axios.post("http://localhost:3000/api/getCart", {email: session.user.email, username: session.user.name})
-          setCartNumber(res.data.cartNumber)
+          if(res.data.cart){
+            setCart(res.data.cart)
+          }
         }
       }
     }
@@ -65,7 +67,7 @@ export default function Navbar(){
         <p className={styles.nav_tab}><Link href="/Store" className={styles.nav_tab}>Store</Link></p>
 
         <div className={styles.cart_container}>
-          <div className={styles.items_in_cart}>2</div>
+          <div className={styles.items_in_cart}>{cart.length}</div>
           <Image className={styles.cart_icon} height={10} width={8} src={ShoppingCart} alt="ads" />
         </div>
 

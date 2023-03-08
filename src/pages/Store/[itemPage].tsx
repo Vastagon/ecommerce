@@ -33,16 +33,19 @@ export default function itemPage(props: itemPageProps){
         }
     }, [router.isReady])
 
-    async function getInfo(itemRoute: any){
+    async function getInfo(itemRoute: string | string[] | undefined){
         const res = await axios.post("http://localhost:3000/api/getItems", {id: itemRoute})
         setItem(res.data.itemInfo)
     }
 
-    function addToCart(){
+    async function addToCart(){
         if(item){
             if(session){
+                const itemRoute = router.query.itemPage
                 ///Add to DB
                 cart.push(item.title)
+                const res = await axios.post("http://localhost:3000/api/updateCart", {id: itemRoute})
+
             }else{
                 ///Add to state
                 cart.push(item.title)

@@ -23,4 +23,5 @@ model users {
   id       String @id @default(cuid())
   email String @unique
   username String
+  cart String[]
 }
