@@ -22,6 +22,7 @@ type itemInfo = {
 export default function itemPage(props: itemPageProps){
     const router = useRouter()
     const session = useSession()
+    console.log(session)
     const [item, setItem] = useState<itemInfo>()
     const [cart, setCart] = useState<Array<string>>([])
 
@@ -44,15 +45,13 @@ export default function itemPage(props: itemPageProps){
                 const itemRoute = router.query.itemPage
                 ///Add to DB
                 cart.push(item.title)
-                const res = await axios.post("http://localhost:3000/api/updateCart", {id: itemRoute})
-
+                const res = await axios.post("http://localhost:3000/api/addItemsToCart", {email: session!.data!.user!.email, itemName: itemRoute})
+                console.log(res.data)
             }else{
                 ///Add to state
                 cart.push(item.title)
             }            
         }
-
-        console.log(cart)
     }
 
     ///I can use category for a tag search system

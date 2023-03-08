@@ -8,12 +8,18 @@ type Data = {
   itemInfo: any
 }
 
-async function updateCart(path: number){
-  const result = await prisma.items.findUnique({
+async function addItemsToCart(emailString: string, itemName: string){
+  console.log(itemName)
+  const result = await prisma.users.update({
     where:{
-      id: path
+      email: emailString
+    },
+    data:{
+      cart: [itemName]
     }
   })
+
+  ///Update cart here
   return result
 }
 
@@ -22,6 +28,6 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   const data = req.body
-  const response = await updateCart(data.id)
+  const response = await addItemsToCart(data.email, data.itemName)
   res.status(200).json({ itemInfo: response })
 }
