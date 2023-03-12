@@ -21,7 +21,7 @@ export default function ShoppingPageCard(props: ShoppingPageProps){
   return (
     <div onClick={() => goToItemPage(props.id)} className={styles.store_page_card}>
       <Image className={styles.card_image} loader={() => props.image} width={100} height={200} alt="Item Image" src={props.image} />
-      <p>{props.title}</p>
+      <p className={styles.card_title}>{props.title}</p>
     </div>
   )
 }
