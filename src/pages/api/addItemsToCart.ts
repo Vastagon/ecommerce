@@ -9,7 +9,6 @@ type Data = {
 }
 
 async function addItemsToCart(emailString: string, itemName: string){
-  console.log(itemName)
   const result = await prisma.users.update({
     where:{
       email: emailString
