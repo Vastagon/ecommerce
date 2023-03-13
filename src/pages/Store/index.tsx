@@ -31,13 +31,15 @@ export default function Store(){
 
     useEffect(() =>{
         if(items){
-            setCards(items.map((prev: { title: string; image: string; id: number }) => {
+            setCards(items.map((prev: { title: string; image: string; id: number, price: number, rating: number }) => {
                 return(
                     <ShoppingPageCard 
                         key={uuid()}
+                        id={prev.id}
                         title= {prev.title}
                         image={prev.image}
-                        id={prev.id}
+                        price={prev.price}
+                        rating={prev.rating}
                     />              
                 )
             }))

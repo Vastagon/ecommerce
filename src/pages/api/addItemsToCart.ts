@@ -9,17 +9,30 @@ type Data = {
 }
 
 async function addItemsToCart(emailString: string, itemName: string){
-  const result = await prisma.users.update({
+  const oldItems = await prisma.users.findUnique({
     where:{
       email: emailString
-    },
-    data:{
-      cart: [itemName]
     }
   })
 
+
+  if(oldItems){
+    const newCart = [...oldItems.cart, itemName]
+
+    const result = await prisma.users.update({
+      where:{
+        email: emailString
+      },
+      data:{
+        cart: newCart
+      }
+    })    
+
+    return result
+  }
+
   ///Update cart here
-  return result
+  return null
 }
 
 export default async function handler(
