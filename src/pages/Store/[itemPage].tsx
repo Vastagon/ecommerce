@@ -4,7 +4,9 @@ import axios from "axios";
 import {useEffect, useState} from "react"
 import Image from "next/image";
 import Loading from "@/components/Loading";
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession } from "next-auth/react"
+import { UserContext } from '../../components/UserContext'
+import { useContext } from "react"
 
 type itemPageProps = {
     itemInfo: any
@@ -20,39 +22,25 @@ type itemInfo = {
 }
 
 export default function itemPage(props: itemPageProps){
+    const {addToCart} = useContext(UserContext)
     const router = useRouter()
     const session = useSession()
-    console.log(session)
     const [item, setItem] = useState<itemInfo>()
     const [cart, setCart] = useState<Array<string>>([])
+    const [itemRoute, setItemRoute] = useState<any>()
 
     useEffect(() =>{
-        ///Might be undefined
         if(router.isReady){
-            const itemRoute = router.query.itemPage
-            getInfo(itemRoute)
+            setItemRoute(router.query.itemPage)
+            getCardInfo(router.query.itemPage)
         }
     }, [router.isReady])
 
-    async function getInfo(itemRoute: string | string[] | undefined){
+    async function getCardInfo(itemRoute: string | string[] | undefined){
         const res = await axios.post("http://localhost:3000/api/getItems", {id: itemRoute})
         setItem(res.data.itemInfo)
     }
 
-    async function addToCart(){
-        if(item){
-            if(session){
-                const itemRoute = router.query.itemPage
-                ///Add to DB
-                cart.push(item.title)
-                const res = await axios.post("http://localhost:3000/api/addItemsToCart", {email: session!.data!.user!.email, itemName: itemRoute})
-                console.log(res.data)
-            }else{
-                ///Add to state
-                cart.push(item.title)
-            }            
-        }
-    }
 
     ///I can use category for a tag search system
     if(!item) return <Loading />
@@ -69,7 +57,7 @@ export default function itemPage(props: itemPageProps){
                 <p className={styles.item_price}>${item.price}</p>
                 <p className={styles.item_description}>{item.description}</p>
 
-                <button onClick={addToCart}>Add to Cart</button>
+                <button onClick={() => {addToCart(item, itemRoute, session, cart)}}>Add to Cart</button>
             </div>
         </main>
     )

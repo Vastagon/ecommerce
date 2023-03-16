@@ -4,9 +4,7 @@ import { v4 as uuid } from 'uuid';
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Loading from "@/components/Loading";
-import Navbar from "@/components/Navbar";
 
-// const prisma = new PrismaClient()
 
 type cardProps = {
     map: any;
@@ -50,12 +48,8 @@ export default function Store(){
     if(!items) return <Loading />
 
     return (
-        <>
-            <Navbar />
-
-            <main className={styles.store_page_card_container}>
-                {cards}
-            </main>
-        </>
+        <main className={styles.store_page_card_container}>
+            {cards}
+        </main>
     )
 }

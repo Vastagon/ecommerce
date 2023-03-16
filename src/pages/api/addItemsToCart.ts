@@ -40,6 +40,7 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   const data = req.body
+  console.log(data)
   const response = await addItemsToCart(data.email, data.itemName)
   res.status(200).json({ itemInfo: response })
 }

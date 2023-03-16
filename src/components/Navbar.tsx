@@ -10,30 +10,35 @@ import MoneyBagImage from "../../public/images/money-bag.png"
 import ShoppingCart from "../../public/images/shoppingCart.png"
 import Loading from './Loading'
 
+import { UserContext } from './UserContext'
+import { useContext } from "react"
 
 export default function Navbar(){
+  const {cart} = useContext(UserContext)
+
+
   const router = useRouter()
   const { data: session } = useSession()
   let profileImage = ""
-  const [cart, setCart] = useState([])
+  // const [cart, setCart] = useState([])
 
-  async function getCart(){
-    if(session){
-      if(session.user){
-        if(session.user.email){
-          console.log(session.user)
-          const res =  await axios.post("http://localhost:3000/api/getCart", {email: session.user.email, username: session.user.name})
-          if(res.data.cart){
-            setCart(res.data.cart)
-          }
-        }
-      }
-    }
-  }
+  // async function getCart(){
+  //   if(session){
+  //     if(session.user){
+  //       if(session.user.email){
+  //         console.log(session.user)
+  //         const res =  await axios.post("http://localhost:3000/api/getCart", {email: session.user.email, username: session.user.name})
+  //         if(res.data.cart){
+  //           setCart(res.data.cart)
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 
-  useEffect(() =>{
-    getCart()
-  }, [session])
+  // useEffect(() =>{
+  //   getCart()
+  // }, [session])
 
   function goToHome(){
     router.push("/")
@@ -54,8 +59,8 @@ export default function Navbar(){
     profileImage = "https://cdn-icons-png.flaticon.com/512/6522/6522516.png"
   }
 
-
-  if(profileImage.length === 0) return <Loading />
+  console.log(cart)
+  if(profileImage.length === 0 || !cart) return <Loading />
 
   return(
     <div className={styles.navbar}>

@@ -14,8 +14,7 @@ export default function Home() {
         <script src="https://kit.fontawesome.com/545ec7fe20.js" crossOrigin="anonymous"></script>
 
       </Head>
-      <Navbar />
-
+      
       <main className={styles.main}>
         <h1>Main Page</h1>
       </main>
