@@ -1,10 +1,10 @@
 import ShoppingPageCard from "@/components/ShoppingPageCard"
 import styles from "../../styles/Store.module.css"
 import { v4 as uuid } from 'uuid';
-import { PrismaClient } from '@prisma/client';
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Loading from "@/components/Loading";
+import Navbar from "@/components/Navbar";
 
 // const prisma = new PrismaClient()
 
@@ -50,8 +50,12 @@ export default function Store(){
     if(!items) return <Loading />
 
     return (
-        <main className={styles.store_page_card_container}>
-            {cards}
-        </main>
+        <>
+            <Navbar />
+
+            <main className={styles.store_page_card_container}>
+                {cards}
+            </main>
+        </>
     )
 }
