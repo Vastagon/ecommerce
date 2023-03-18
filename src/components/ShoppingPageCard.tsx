@@ -24,9 +24,16 @@ export default function ShoppingPageCard(props: ShoppingPageProps){
     // axios.post()
   }
 
+  function cardClicked(id: number, whatToDo: string){
+    if(whatToDo === "goToCard"){
+      goToItemPage(id)
+    }else{
+      addItemToCart(id)
+    }
+  }
 
   return (
-    <div onClick={() => goToItemPage(props.id)} className={styles.store_page_card}>
+    <div onClick={() => cardClicked(props.id, "goToCard")} className={styles.store_page_card}>
       <Image className={styles.card_image} loader={() => props.image} width={100} height={200} alt="Item Image" src={props.image} />
       <p className={styles.card_title}>{props.title}</p>
 
@@ -35,7 +42,7 @@ export default function ShoppingPageCard(props: ShoppingPageProps){
         <p className={styles.card_rating}>&#11088;{props.rating}</p>
       </div>
 
-      <button onClick={() => addItemToCart(props.id)}>Add to cart</button>
+      <button className={styles.card_button} onClick={() => cardClicked(props.id, "addToCart")}>Add to cart</button>
     </div>
   )
 }

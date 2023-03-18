@@ -10,6 +10,8 @@
     align-items: center;
 }
 .store_page_card{
+    position: relative;
+    z-index: 10;
     width: 20vw;
     height: 60vh;
     border-style: solid;
@@ -32,4 +34,8 @@
 }
 .card_price{
     color: red;
+}
+.card_button{
+    position: relative;
+    z-index: 50;
 }
