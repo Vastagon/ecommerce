@@ -1,0 +1,9 @@
+.cart_modal_container{
+    height: 40vh;
+    width: 25vw;
+    background-color: royalblue;
+    border-radius: 10px;
+    position: absolute;
+    left: -10.7vw;
+    top: 6vw;
+}

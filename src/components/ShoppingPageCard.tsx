@@ -1,7 +1,8 @@
 import Image from "next/image"
 import styles from "../styles/Store.module.css"
 import { useRouter } from 'next/router'
-import axios from "axios"
+import { useContext } from "react"
+import { UserContext } from "./UserContext"
 
 type ShoppingPageProps = {
   title: string
@@ -14,26 +15,25 @@ type ShoppingPageProps = {
 
 
 export default function ShoppingPageCard(props: ShoppingPageProps){
+  const {addToCart, cart} = useContext(UserContext)
+  const item =  {title: props.title, image: props.image, id: props.id, price: props.price, rating: props.rating}
   const router = useRouter()
 
   function goToItemPage(id: number){
     router.push(`/Store/${id}`)
   }
 
-  async function addItemToCart(id: number){
-    // axios.post()
-  }
-
-  function cardClicked(id: number, whatToDo: string){
-    if(whatToDo === "goToCard"){
-      goToItemPage(id)
+  ///Decides if the card or the button was clicked
+  function cardClicked(e: any, id: number){
+    if(e.target.name === "cart button"){
+      addToCart(item, item.id.toString(), cart)
     }else{
-      addItemToCart(id)
+      goToItemPage(id)
     }
   }
 
   return (
-    <div onClick={() => cardClicked(props.id, "goToCard")} className={styles.store_page_card}>
+    <div onClick={(e) => cardClicked(e, props.id)} className={styles.store_page_card}>
       <Image className={styles.card_image} loader={() => props.image} width={100} height={200} alt="Item Image" src={props.image} />
       <p className={styles.card_title}>{props.title}</p>
 
@@ -42,7 +42,7 @@ export default function ShoppingPageCard(props: ShoppingPageProps){
         <p className={styles.card_rating}>&#11088;{props.rating}</p>
       </div>
 
-      <button className={styles.card_button} onClick={() => cardClicked(props.id, "addToCart")}>Add to cart</button>
+      <button name="cart button" className={styles.card_button} >Add to cart</button>
     </div>
   )
 }

@@ -4,7 +4,6 @@ import axios from "axios";
 import {useEffect, useState} from "react"
 import Image from "next/image";
 import Loading from "@/components/Loading";
-import { useSession } from "next-auth/react"
 import { UserContext } from '../../components/UserContext'
 import { useContext } from "react"
 
@@ -24,7 +23,6 @@ type itemInfo = {
 export default function itemPage(props: itemPageProps){
     const {addToCart} = useContext(UserContext)
     const router = useRouter()
-    const session = useSession()
     const [item, setItem] = useState<itemInfo>()
     const [cart, setCart] = useState<Array<string>>([])
     const [itemRoute, setItemRoute] = useState<any>()
@@ -57,7 +55,7 @@ export default function itemPage(props: itemPageProps){
                 <p className={styles.item_price}>${item.price}</p>
                 <p className={styles.item_description}>{item.description}</p>
 
-                <button onClick={() => {addToCart(item, itemRoute, session, cart)}}>Add to Cart</button>
+                <button onClick={() => {addToCart(item, itemRoute, cart)}}>Add to Cart</button>
             </div>
         </main>
     )

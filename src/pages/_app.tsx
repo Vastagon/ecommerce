@@ -14,16 +14,16 @@ export default function App({ Component, pageProps: {session, ...pageProps} }: A
     setSessionState(await getSession())
   }
 
-  async function addToCart(item: any, itemRoute: string, session: any, cart: any){
+  async function addToCart(item: any, itemRoute: string, cart: any){
     if(cart){
-      if(session){
-          ///Add to DB
-          cart.push(item.title)
-          const res = await axios.post("http://localhost:3000/api/addItemsToCart", {email: session!.data!.user!.email, itemName: itemRoute})
-          getCart()
+      if(sessionState){
+        ///Add to DB
+        cart.push(item.title)
+        const res = await axios.post("http://localhost:3000/api/addItemsToCart", {email: sessionState!.user!.email, itemName: itemRoute})
+        getCart()
       }else{
-          ///Add to state
-          cart.push(item.title)
+        ///Add to state
+        cart.push(item.title)
       }            
     }
   }
@@ -31,27 +31,24 @@ export default function App({ Component, pageProps: {session, ...pageProps} }: A
   useEffect(() =>{
     getSessionFunction()
   }, [])
+  
   useEffect(() =>{
     getCart()
   }, [sessionState])
 
   async function getCart(){
     if(sessionState){
-      if(sessionState.user){
-        if(sessionState.user.email){
-          console.log(sessionState.user)
-          const res =  await axios.post("http://localhost:3000/api/getCart", {email: sessionState.user.email, username: sessionState.user.name})
-          if(res.data.cart){
-            setCart(res.data.cart)
-          }
-        }
-      }
+      const res =  await axios.post("http://localhost:3000/api/getCart", {email: sessionState.user.email, username: sessionState.user.name})
+      
+      if(res.data.cart){
+        setCart(res.data.cart)
+      }      
     }
   }
 
   return ( 
     <SessionProvider session={session}>
-      <UserContext.Provider value={{addToCart, cart}}>
+      <UserContext.Provider value={{addToCart, cart, sessionState}}>
         <Navbar />
         <Component {...pageProps} />
       </UserContext.Provider>
