@@ -6,4 +6,24 @@
     position: absolute;
     left: -10.7vw;
     top: 6vw;
+    overflow-y: scroll;
+}
+.item{
+    margin-top: 1rem;
+    display: flex;
+    padding-left: 3%;
+}
+.item_image{
+    width: 10%;
+    height: auto;
+}
+.remove_button{
+    float: right;
+}
+.right_side{
+    width: 80%;
+    text-align: left;
+}
+.item_name{
+    margin-left: 1rem;
 }
