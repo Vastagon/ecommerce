@@ -35,6 +35,7 @@ export default function Navbar(){
     if(session.user){
       if(session.user.image){
         profileImage = session.user.image
+        console.log(profileImage)
       }
     }
   }else{
