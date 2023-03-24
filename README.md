@@ -23,3 +23,34 @@ create table tempItems (
 		FOREIGN KEY(important_id)
 			REFERENCES "users"(id)
 )
+
+insert into tempitems (title, price, description, category, image, "count", rating, important_id)
+values('title', 12.2, 'description', 'category', 'image', 2.21, 2.1, 8)
+
+
+
+### creating test tables
+create table post(
+	id serial primary key,
+	name varchar(255),
+	content text,
+	user_id int,
+	constraint fk_user
+		foreign key(user_id)
+			references "tempuser"(id)
+)
+
+create table tempuser(
+	id serial primary key,
+	name varchar(255),
+	email varchar(255),
+	password varchar(255),
+	age int
+)
+
+
+select * from "tempuser" join post on "post".user_id = "tempuser".id;
+
+select "tempuser".*, post.id, post.name as title, post.content, post.user_id from "tempuser" join post on "post".user_id = "tempuser".id;
+
+select "tempuser".*, post.id as post_id, post.name as title, post.content, post.user_id from "tempuser" join post on "post".user_id = "tempuser".id;
