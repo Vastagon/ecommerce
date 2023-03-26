@@ -3,6 +3,10 @@ import styles from "../styles/Store.module.css"
 import { useRouter } from 'next/router'
 import { useContext } from "react"
 import { UserContext } from "./UserContext"
+import fullStar from "../../public/images/fullstar-cropped.png"
+import halfStar from "../../public/images/halfstar-cropped.png"
+import emptyStar from "../../public/images/emptystar-cropped.png"
+
 
 type ShoppingPageProps = {
   title: string
@@ -39,7 +43,10 @@ export default function ShoppingPageCard(props: ShoppingPageProps){
 
       <div className={styles.card_price_and_review_container}>
         <p className={styles.card_price}>${props.price}</p>
-        <p className={styles.card_rating}>&#11088;{props.rating}</p>
+        {/* <p className={styles.card_rating}>&#11088;{props.rating}</p> */}
+        <Image className={styles.stars} width={10} height={10} alt="Item Image" src={fullStar} />
+        <Image className={styles.stars} width={10} height={10} alt="Item Image" src={emptyStar} />
+        <Image className={styles.stars} width={10} height={10} alt="Item Image" src={halfStar} />
       </div>
 
       <button name="cart button" className={styles.card_button} >Add to cart</button>

@@ -16,6 +16,7 @@
     border-style: solid;
     border-width: 2px;
     border-color: green;
+    background-color: aqua;
     padding: 1rem;
     margin: 5%;
 }
@@ -38,4 +39,8 @@
 .card_button{
     position: relative;
     z-index: 50;
+}
+.stars{
+    width: 5%;
+    height: auto;
 }

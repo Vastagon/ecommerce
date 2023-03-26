@@ -7,6 +7,15 @@ An ecommerce website built using NextJS and PostgreSQL that allows user to add i
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 
+## Run add items to cart script
+1. Add "type": "module" in package.json
+2. run the command using  `ts-node-esm getTempDataFromApi.ts`
+3. Remote "type": "module" in package.json
+
+## Image Cropping
+https://www9.lunapic.com/editor/
+half star needs to be edited again
+https://stock.adobe.com/search?k=half+star+rating&asset_id=316517095
 
 ### Messing with SQL
 create table tempItems (
