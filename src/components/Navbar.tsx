@@ -42,7 +42,7 @@ export default function Navbar(){
     profileImage = "https://cdn-icons-png.flaticon.com/512/6522/6522516.png"
   }
 
-  if(profileImage.length === 0 || !cart) return <Loading />
+  if(profileImage.length === 0 || !cart) return null
 
   return(
     <div className={styles.navbar}>
