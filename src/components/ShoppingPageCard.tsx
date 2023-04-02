@@ -6,6 +6,8 @@ import { UserContext } from "./UserContext"
 import fullStar from "../../public/images/fullstar-cropped.png"
 import halfStar from "../../public/images/halfstar-cropped.png"
 import emptyStar from "../../public/images/emptystar-cropped.png"
+import StarsContainer from "./StarsContainer"
+import { uuid } from "uuidv4"
 
 
 type ShoppingPageProps = {
@@ -20,7 +22,7 @@ type ShoppingPageProps = {
 
 export default function ShoppingPageCard(props: ShoppingPageProps){
   const {addToCart, cart} = useContext(UserContext)
-  const [stars, setStars] = useState()
+  const [stars, setStars] = useState<any>()
   const item =  {title: props.title, image: props.image, id: props.id, price: props.price, rating: props.rating}
   const router = useRouter()
 
@@ -29,21 +31,40 @@ export default function ShoppingPageCard(props: ShoppingPageProps){
   }
 
   useEffect(() =>{
+    const tempArray = []
     ///This is 3
     const fullStars = Math.floor(props.rating)
     ///This is half
     const halfStars = props.rating - fullStars
 
+
     ///Need one more that's empty
-    for(let i = fullStars; i < 5; i++){
+    let halfStarCreated = false
+    for(let i = 0; i < 5; i++){
       if(fullStars > i){
-        ///return full star
-      }else if(halfStars){
-        ///return a half star
+        tempArray.push("full")
+      }else if((halfStars > .3 || halfStars < .8) && !halfStarCreated){
+        tempArray.push("half")
+        halfStarCreated = true
       }else{
-        ///return an empty star
+        tempArray.push("empty")
       }
     }
+    console.log(tempArray)
+
+    setStars(tempArray.map((prev) => {
+      let selectedImage
+      if(prev === "full") selectedImage = fullStar
+      if(prev === "half") selectedImage = halfStar
+      if(prev === "empty") selectedImage = emptyStar
+
+      if(selectedImage)
+      return(
+        <Image key={uuid()} className={styles.stars} width={10} height={10} alt="Item Image" src={selectedImage} />
+      )      
+    }))
+
+
   }, [])
 
   ///Decides if the card or the button was clicked
@@ -55,6 +76,7 @@ export default function ShoppingPageCard(props: ShoppingPageProps){
     }
   }
 
+  if(!stars) return null
   return (
     <div onClick={(e) => cardClicked(e, props.id)} className={styles.store_page_card}>
       <Image className={styles.card_image} loader={() => props.image} width={100} height={200} alt="Item Image" src={props.image} />
@@ -62,13 +84,13 @@ export default function ShoppingPageCard(props: ShoppingPageProps){
 
       <div className={styles.card_price_and_review_container}>
         <p className={styles.card_price}>${props.price}</p>
-        <p className={styles.card_rating}>&#11088;{props.rating}</p>
-        <Image className={styles.stars} width={10} height={10} alt="Item Image" src={fullStar} />
-        <Image className={styles.stars} width={10} height={10} alt="Item Image" src={emptyStar} />
-        <Image className={styles.stars} width={10} height={10} alt="Item Image" src={halfStar} />
+        <p className={styles.card_rating}>{props.rating}</p>
+        {stars}
       </div>
 
       <button name="cart button" className={styles.card_button} >Add to cart</button>
     </div>
   )
 }
+
+// &#11088;
