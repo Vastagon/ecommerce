@@ -8,12 +8,11 @@ import { UserContext } from './UserContext'
 import Image from 'next/image'
 import MoneyBagImage from "../../public/images/money-bag.png"
 import ShoppingCart from "../../public/images/shoppingCart.png"
-import Loading from './Loading'
 import CartModal from './CartModal'
 
 export default function Navbar(){
   const router = useRouter()
-  const {cart} = useContext(UserContext)
+  const {cart, setCart} = useContext(UserContext)
   const { data: session } = useSession()
   const [showCartModal, setShowCartModal] = useState(false)
   let profileImage = ""
@@ -42,6 +41,7 @@ export default function Navbar(){
     profileImage = "https://cdn-icons-png.flaticon.com/512/6522/6522516.png"
   }
 
+  if(!cart) setCart([])
   if(profileImage.length === 0 || !cart) return null
 
   return(

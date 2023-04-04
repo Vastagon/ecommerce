@@ -7,7 +7,7 @@ import Loading from "@/components/Loading";
 
 
 type cardProps = {
-    map: any;
+    map: any
     title: string
     image: string
     id: number 

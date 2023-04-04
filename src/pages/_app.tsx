@@ -48,7 +48,7 @@ export default function App({ Component, pageProps: {session, ...pageProps} }: A
 
   return ( 
     <SessionProvider session={session}>
-      <UserContext.Provider value={{addToCart, cart, sessionState}}>
+      <UserContext.Provider value={{addToCart, cart, setCart, sessionState}}>
         <Navbar />
         <Component {...pageProps} />
       </UserContext.Provider>

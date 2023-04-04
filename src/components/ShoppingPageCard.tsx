@@ -6,7 +6,6 @@ import { UserContext } from "./UserContext"
 import fullStar from "../../public/images/fullstar-cropped.png"
 import halfStar from "../../public/images/halfstar-cropped.png"
 import emptyStar from "../../public/images/emptystar-cropped.png"
-import StarsContainer from "./StarsContainer"
 import { uuid } from "uuidv4"
 
 
@@ -43,14 +42,13 @@ export default function ShoppingPageCard(props: ShoppingPageProps){
     for(let i = 0; i < 5; i++){
       if(fullStars > i){
         tempArray.push("full")
-      }else if((halfStars > .3 || halfStars < .8) && !halfStarCreated){
+      }else if((halfStars > .3 && halfStars < .9) && !halfStarCreated){
         tempArray.push("half")
         halfStarCreated = true
       }else{
         tempArray.push("empty")
       }
     }
-    console.log(tempArray)
 
     setStars(tempArray.map((prev) => {
       let selectedImage
