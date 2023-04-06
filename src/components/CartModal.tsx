@@ -38,7 +38,12 @@ export default function CartModal(){
     if(!cart) return null
     return(
         <div className={styles.cart_modal_container}>
-            {itemListDivs}
+            <div className={styles.position_container}>
+                <span className={styles.arrow_up}></span>
+                
+                {itemListDivs}
+
+            </div>
         </div>
     )
 }

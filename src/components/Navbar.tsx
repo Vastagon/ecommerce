@@ -59,7 +59,7 @@ export default function Navbar(){
           {showCartModal ? <CartModal /> : null}
         </div>
 
-        <Image onClick={goToAccount} height={10} width={8} loader={() => profileImage} className={styles.profile_icon} src={profileImage} alt="ads" />
+        <Image onClick={goToAccount} height={50} width={50} className={styles.profile_icon} src={profileImage} alt="ads" />
       </div>
     </div>
   )
