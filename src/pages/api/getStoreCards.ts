@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { PrismaClient } from '@prisma/client';
 import prisma from "../../components/prisma"
 
 
@@ -8,8 +7,8 @@ type Data = {
 }
 
 async function returnCards(){
-    const data = await prisma.items.findMany()
-    return data
+  const data = await prisma.items.findMany()
+  return data
 }
 
 

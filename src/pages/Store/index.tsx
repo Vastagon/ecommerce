@@ -20,6 +20,7 @@ export default function Store(){
 
     async function getStoreCards(){
         const req = await axios.post("http://localhost:3000/api/getStoreCards")
+        console.log(req.data)
         setItems(req.data.storeCards)
     }
 

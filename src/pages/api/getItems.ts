@@ -1,6 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { PrismaClient } from '@prisma/client';
 import prisma from "../../components/prisma"
 
 
@@ -8,10 +7,10 @@ type Data = {
   itemInfo: any
 }
 
-async function getItem(path: number){
+async function getItem(path: string){
   const result = await prisma.items.findUnique({
     where:{
-      id: path
+      title: path
     }
   })
   return result
@@ -22,6 +21,6 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   const data = req.body
-  const response = await getItem(parseInt(data.id))
+  const response = await getItem(data.id)
   res.status(200).json({ itemInfo: response })
 }

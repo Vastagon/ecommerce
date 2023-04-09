@@ -1,5 +1,6 @@
 import styles from "@/styles/CartModal.module.css"
 import Image from "next/image"
+import axios from "axios"
 import { useState, useContext, useEffect } from "react"
 import { uuid } from "uuidv4"
 import { UserContext } from "./UserContext"
@@ -7,11 +8,14 @@ import { useRouter } from "next/router"
 
 export default function CartModal(){
     const router = useRouter()
-    const {cart} = useContext(UserContext)
+    const {cart, setCart, sessionState} = useContext(UserContext)
     const [itemListDivs, setItemListDivs] = useState()
 
-    function cardOrButtonClicked(e: any, routerPath: string){
+    async function cardOrButtonClicked(e: any, routerPath: string){
         if(e.target.name === "cartDelButton"){
+            console.log(`Routerpath: ${routerPath}`)
+            const req = await axios.post("http://localhost:3000/api/deleteItemFromCart", {title: routerPath, email: sessionState!.user!.email})
+            
             ///Remove item from cart here
         }else{
             ///Go to page here
@@ -37,12 +41,11 @@ export default function CartModal(){
 
     if(!cart) return null
     return(
-        <div className={styles.cart_modal_container}>
+        <div id="cartModal" className={styles.cart_modal_container}>
             <div className={styles.position_container}>
                 <span className={styles.arrow_up}></span>
                 
                 {itemListDivs}
-
             </div>
         </div>
     )

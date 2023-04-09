@@ -10,7 +10,7 @@ datasource db {
 
 model items {
   id Int @id
-  title String
+  title String @unique
   price Float
   description String
   category String

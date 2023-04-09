@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "script": "ts-node-esm"
+    "script": "ts-node-esm ./scripts/getTempDataFromApi.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",

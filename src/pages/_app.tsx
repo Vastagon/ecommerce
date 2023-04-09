@@ -9,6 +9,8 @@ import axios from 'axios'
 export default function App({ Component, pageProps: {session, ...pageProps} }: AppProps) {
   const [cart, setCart] = useState<string[]>()
   const [sessionState, setSessionState] = useState<any>()
+  const [showCartModal, setShowCartModal] = useState(false)
+
 
   async function getSessionFunction(){
     setSessionState(await getSession())
@@ -17,8 +19,7 @@ export default function App({ Component, pageProps: {session, ...pageProps} }: A
   async function addToCart(item: any, itemRoute: string, cart: any){
     if(cart){
       if(sessionState){
-        ///Add to DB
-        cart.push(item.title)
+        ///Add to user's cart DB
         const res = await axios.post("http://localhost:3000/api/addItemsToCart", {email: sessionState!.user!.email, itemName: itemRoute})
         getCart()
       }else{
@@ -30,6 +31,17 @@ export default function App({ Component, pageProps: {session, ...pageProps} }: A
 
   useEffect(() =>{
     getSessionFunction()
+
+    ///Click listener to close cart modal when clicking outside
+    window.addEventListener("click", (e) =>{
+      console.log((e.target as HTMLTextAreaElement).id)
+      if((e.target as HTMLTextAreaElement).id === "cartModal" || (e.target as HTMLTextAreaElement).id === "cartIcon" || (e.target as HTMLTextAreaElement).name === "cartDelButton"){
+        ///Close modal
+      }else{
+        setShowCartModal(false)
+        console.log("HERE")
+      }
+    })
   }, [])
   
   useEffect(() =>{
@@ -49,7 +61,7 @@ export default function App({ Component, pageProps: {session, ...pageProps} }: A
   return ( 
     <SessionProvider session={session}>
       <UserContext.Provider value={{addToCart, cart, setCart, sessionState}}>
-        <Navbar />
+        <Navbar showCartModal={showCartModal} setShowCartModal={setShowCartModal} />
         <Component {...pageProps} />
       </UserContext.Provider>
     </SessionProvider>

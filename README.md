@@ -11,8 +11,11 @@ https://colorhunt.co/palette/0b244719376d576cbca5d7e8
 
 ## Run add items to cart script
 1. Add "type": "module" in package.json
-2. run the command using  `ts-node-esm getTempDataFromApi.ts`
+2. run the command using  `npm run script`
 3. Remote "type": "module" in package.json
+
+## Potential errors
+A space at the end of your path causes it to no longer work
 
 ## Image Cropping
 https://www9.lunapic.com/editor/

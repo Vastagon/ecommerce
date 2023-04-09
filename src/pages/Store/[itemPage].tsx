@@ -7,9 +7,6 @@ import Loading from "@/components/Loading";
 import { UserContext } from '../../components/UserContext'
 import { useContext } from "react"
 
-type itemPageProps = {
-    itemInfo: any
-}
 type itemInfo = {
     category: string
     count: number
@@ -20,7 +17,7 @@ type itemInfo = {
     image: string
 }
 
-export default function itemPage(props: itemPageProps){
+export default function itemPage(){
     const {addToCart} = useContext(UserContext)
     const router = useRouter()
     const [item, setItem] = useState<itemInfo>()

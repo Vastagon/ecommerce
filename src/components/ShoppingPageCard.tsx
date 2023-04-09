@@ -25,8 +25,8 @@ export default function ShoppingPageCard(props: ShoppingPageProps){
   const item =  {title: props.title, image: props.image, id: props.id, price: props.price, rating: props.rating}
   const router = useRouter()
 
-  function goToItemPage(id: number){
-    router.push(`/Store/${id}`)
+  function goToItemPage(title: string){
+    router.push(`/Store/${title}`)
   }
 
   useEffect(() =>{
@@ -68,9 +68,9 @@ export default function ShoppingPageCard(props: ShoppingPageProps){
   ///Decides if the card or the button was clicked
   function cardClicked(e: any, id: number){
     if(e.target.name === "cart button"){
-      addToCart(item, item.id.toString(), cart)
+      addToCart(item, item.title.toString(), cart)
     }else{
-      goToItemPage(id)
+      goToItemPage(item.title)
     }
   }
 
@@ -86,7 +86,7 @@ export default function ShoppingPageCard(props: ShoppingPageProps){
         {stars}
       </div>
 
-      <button name="cart button" className={styles.card_button} >Add to cart</button>
+      <button name="cart button" className={styles.card_button}>Add to cart</button>
     </div>
   )
 }

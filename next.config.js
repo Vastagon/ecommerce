@@ -4,7 +4,8 @@ const nextConfig = {
   images: {
     domains: [
       'lh3.googleusercontent.com',
-      'cdn-icons-png.flaticon.com'
+      'cdn-icons-png.flaticon.com',
+      'fakestoreapi.com'
     ],
 
     remotePatterns: [

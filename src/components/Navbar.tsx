@@ -10,11 +10,15 @@ import MoneyBagImage from "../../public/images/money-bag.png"
 import ShoppingCart from "../../public/images/shoppingCart.png"
 import CartModal from './CartModal'
 
-export default function Navbar(){
+type NavbarProps = {
+  showCartModal: boolean
+  setShowCartModal: any
+}
+
+export default function Navbar(props: NavbarProps){
   const router = useRouter()
   const {cart, setCart} = useContext(UserContext)
   const { data: session } = useSession()
-  const [showCartModal, setShowCartModal] = useState(false)
   let profileImage = ""
 
   function goToHome(){
@@ -26,7 +30,7 @@ export default function Navbar(){
   }
 
   function openCartContainer(){
-    setShowCartModal(prev => !prev)
+    props.setShowCartModal((prev: any) => !prev)
   }
 
   ///Gets profile image
@@ -34,7 +38,6 @@ export default function Navbar(){
     if(session.user){
       if(session.user.image){
         profileImage = session.user.image
-        console.log(profileImage)
       }
     }
   }else{
@@ -45,7 +48,7 @@ export default function Navbar(){
   if(profileImage.length === 0 || !cart) return null
 
   return(
-    <div className={styles.navbar}>
+    <div id="navbar" className={styles.navbar}>
       <div onClick={goToHome}>
         <Image className={styles.nav_icon} alt="Icon" src={MoneyBagImage} />
       </div>
@@ -55,8 +58,8 @@ export default function Navbar(){
 
         <div onClick={openCartContainer} className={styles.cart_container}>
           <div className={styles.items_in_cart}>{cart.length}</div>
-          <Image className={styles.cart_icon} height={10} width={8} src={ShoppingCart} alt="ads" />
-          {showCartModal ? <CartModal /> : null}
+          <Image id="cartIcon" className={styles.cart_icon} height={10} width={8} src={ShoppingCart} alt="ads" />
+          {props.showCartModal ? <CartModal /> : null}
         </div>
 
         <Image onClick={goToAccount} height={50} width={50} className={styles.profile_icon} src={profileImage} alt="ads" />
