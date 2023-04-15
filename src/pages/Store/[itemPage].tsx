@@ -32,7 +32,7 @@ export default function itemPage(){
     }, [router.isReady])
 
     async function getCardInfo(itemRoute: string | string[] | undefined){
-        const res = await axios.post("http://localhost:3000/api/getItems", {id: itemRoute})
+        const res = await axios.post("http://localhost:3000/api/getIndividualItem", {id: itemRoute})
         setItem(res.data.itemInfo)
     }
 

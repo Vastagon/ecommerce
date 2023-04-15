@@ -5,7 +5,8 @@ const nextConfig = {
     domains: [
       'lh3.googleusercontent.com',
       'cdn-icons-png.flaticon.com',
-      'fakestoreapi.com'
+      'fakestoreapi.com',
+      'dummyimage.com'
     ],
 
     remotePatterns: [

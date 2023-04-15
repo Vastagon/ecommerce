@@ -7,22 +7,45 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model cart {
+  cart_uid           String      @id @db.Uuid
+  user_id            String      @unique @db.Uuid
+  discount           Int?
+  state_tax          Int?
+  local_tax          Int?
+  created_at         DateTime?   @db.Timestamp(6)
+  order_processed_at DateTime?   @db.Timestamp(6)
+  users              users       @relation(fields: [user_id], references: [users_uid], onDelete: NoAction, onUpdate: NoAction)
+  cartitems          cartitems[]
+}
+
+model cartitems {
+  cartitems_uid             String @id @db.Uuid
+  cart_id                   String @db.Uuid
+  item_id                   String @db.Uuid
+  quantity                  Int
+  final_total_purchase_cost Float?
+  cart                      cart   @relation(fields: [cart_id], references: [cart_uid], onDelete: NoAction, onUpdate: NoAction)
+  items                     items  @relation(fields: [item_id], references: [items_uid], onDelete: NoAction, onUpdate: NoAction)
+}
 
 model items {
-  id Int @id
-  title String @unique
-  price Float
-  description String
-  category String
-  image String
-  rating Float
-  count Float
+  items_uid        String      @id @db.Uuid
+  title            String      @db.VarChar(250)
+  image_path       String      @db.VarChar(500)
+  item_description String?     @db.VarChar(500)
+  rating           Int?
+  price            Float?
+  created_at       DateTime?   @db.Timestamp(6)
+  cartitems        cartitems[]
 }
 
 model users {
-  id       String @id @default(cuid())
-  email String @unique
-  username String
-  cart String[]
+  users_uid        String    @id @db.Uuid
+  username         String?   @db.VarChar(50)
+  email            String    @unique @db.VarChar(250)
+  cart_id          String    @unique @db.Uuid
+  purchased_orders String[]
+  created_at       DateTime? @db.Timestamp(6)
+  cart             cart?
 }
-///Need to have carts point towards items

@@ -11,8 +11,8 @@ import { uuid } from "uuidv4"
 
 type ShoppingPageProps = {
   title: string
-  image: string
-  id: number
+  image_path: string
+  items_uid: string
   price: number
   rating: number
 }
@@ -22,7 +22,7 @@ type ShoppingPageProps = {
 export default function ShoppingPageCard(props: ShoppingPageProps){
   const {addToCart, cart} = useContext(UserContext)
   const [stars, setStars] = useState<any>()
-  const item =  {title: props.title, image: props.image, id: props.id, price: props.price, rating: props.rating}
+  const item =  {title: props.title, image_path: props.image_path, id: props.items_uid, price: props.price, rating: props.rating}
   const router = useRouter()
 
   function goToItemPage(title: string){
@@ -76,8 +76,8 @@ export default function ShoppingPageCard(props: ShoppingPageProps){
 
   if(!stars) return null
   return (
-    <div onClick={(e) => cardClicked(e, props.id)} className={styles.store_page_card}>
-      <Image className={styles.card_image} loader={() => props.image} width={100} height={200} alt="Item Image" src={props.image} />
+    <div onClick={(e) => cardClicked(e, props.items_uid)} className={styles.store_page_card}>
+      <Image className={styles.card_image} loader={() => props.image_path} width={100} height={200} alt="Item Image" src={props.image_path} />
       <p className={styles.card_title}>{props.title}</p>
 
       <div className={styles.card_price_and_review_container}>

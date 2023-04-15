@@ -9,7 +9,7 @@ import Loading from "@/components/Loading";
 type cardProps = {
     map: any
     title: string
-    image: string
+    image_path: string
     id: number 
 }
 
@@ -30,13 +30,13 @@ export default function Store(){
 
     useEffect(() =>{
         if(items){
-            setCards(items.map((prev: { title: string; image: string; id: number, price: number, rating: number }) => {
+            setCards(items.map((prev: { title: string; image_path: string; items_uid: string, price: number, rating: number }) => {
                 return(
                     <ShoppingPageCard 
                         key={uuid()}
-                        id={prev.id}
+                        items_uid={prev.items_uid}
                         title= {prev.title}
-                        image={prev.image}
+                        image_path={prev.image_path}
                         price={prev.price}
                         rating={prev.rating}
                     />              
