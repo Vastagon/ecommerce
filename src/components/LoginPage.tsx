@@ -9,7 +9,6 @@ export default function LoginPage(){
                 {/* <input type="text" placeholder="Email" />
                 <input type="text" placeholder="Password" /> */}
                 <button onClick={() => signIn()}>Sign in</button>
-
             </form>
         </main>
     )

@@ -45,12 +45,12 @@ export default function App({ Component, pageProps: {session, ...pageProps} }: A
   }, [])
   
   useEffect(() =>{
-    getCart()
+    getCartAndCreateUser()
   }, [sessionState])
 
-  async function getCart(){
+  async function getCartAndCreateUser(){
     if(sessionState){
-      const res =  await axios.post("http://localhost:3000/api/getCart", {email: sessionState.user.email, username: sessionState.user.name})
+      const res = await axios.post("http://localhost:3000/api/getCartAndCreateUser", {email: sessionState.user.email, username: sessionState.user.name})
       
       if(res.data.cart){
         setCart(res.data.cart)

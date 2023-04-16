@@ -6,27 +6,28 @@ type Data = {
 }
 
 async function addItemsToCart(emailString: string, itemName: string){
-  const oldItems = await prisma.users.findUnique({
-    where:{
-      email: emailString
-    }
-  })
+  // const oldItems = await prisma.users.findUnique({
+  //   where:{
+  //     email: emailString
+  //   }
+  // })
+  // const userID = await prisma.$queryRaw`SELECT user_id FROM users WHERE email = ${emailString}`
 
+  // if(oldItems){
+  //   // const newCart = [...oldItems.cart, itemName]
+  //   const newCart = await prisma.$queryRaw`INSERT INTO cartitems()`
 
-  if(oldItems){
-    const newCart = [...oldItems.cart, itemName]
+  //   // const result = await prisma.users.update({
+  //   //   where:{
+  //   //     email: emailString
+  //   //   },
+  //   //   data:{
+  //   //     cart: newCart
+  //   //   }
+  //   // })    
 
-    const result = await prisma.users.update({
-      where:{
-        email: emailString
-      },
-      data:{
-        cart: newCart
-      }
-    })    
-
-    return result
-  }
+  //   return result
+  // }
 
   ///Update cart here
   return null
