@@ -21,7 +21,7 @@ export default function App({ Component, pageProps: {session, ...pageProps} }: A
       if(sessionState){
         ///Add to user's cart DB
         const res = await axios.post("http://localhost:3000/api/addItemsToCart", {email: sessionState!.user!.email, itemName: itemRoute})
-        getCart()
+        getCartAndCreateUser()
       }else{
         ///Add to state
         cart.push(item.title)
