@@ -35,6 +35,6 @@ export default async function handler(
   const response = await getCart(data)
 
   if(response){
-    // res.status(200).json({ cart: response.cart })
+    res.status(200).json({ cart: response.cart })
   }
 }

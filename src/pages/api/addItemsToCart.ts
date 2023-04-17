@@ -2,33 +2,36 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import prisma from "../../components/prisma"
 
 type Data = {
-  itemInfo: any
+  status: any
 }
 
-async function addItemsToCart(emailString: string, itemName: string){
-  // const oldItems = await prisma.users.findUnique({
-  //   where:{
-  //     email: emailString
-  //   }
-  // })
-  // const userID = await prisma.$queryRaw`SELECT user_id FROM users WHERE email = ${emailString}`
+async function addItemsToCart(emailString: string, itemName: string){ 
+  const userIDQuery: any = await prisma.$queryRaw`SELECT users_uid FROM users WHERE email = ${emailString}`
+  const userID: string = userIDQuery[0].users_uid
 
-  // if(oldItems){
-  //   // const newCart = [...oldItems.cart, itemName]
-  //   const newCart = await prisma.$queryRaw`INSERT INTO cartitems()`
+  const cartIDQuery: any = await prisma.$queryRaw`SELECT cart_uid FROM cart WHERE user_id = ${userID}::UUID`
+  const cartID: string = cartIDQuery[0].cart_uid
 
-  //   // const result = await prisma.users.update({
-  //   //   where:{
-  //   //     email: emailString
-  //   //   },
-  //   //   data:{
-  //   //     cart: newCart
-  //   //   }
-  //   // })    
+  const itemsIDQuery: any = await prisma.$queryRaw`SELECT items_uid FROM items WHERE title = ${itemName}`
+  const itemID: string = itemsIDQuery[0].items_uid
 
-  //   return result
-  // }
+  // console.log(itemID, cartID, userID)
 
+  ///Want to search with the cart_id and the item_id to see if it exists already
+
+  ///Check if item is already added
+  const itemAddedQuery: any = await prisma.$queryRaw`SELECT cartitems_uid FROM cartitems WHERE cart_id = ${cartID}::UUID AND item_id = ${itemID}::UUID`
+  const itemAdded: string = itemAddedQuery[0].cartitems_uid
+  console.log(itemAdded)
+
+  ///If item hasn't been added to the cart
+  if(itemAddedQuery.length === 0){
+    const addFirstItemQuery = await prisma.$queryRaw`INSERT INTO cartitems(cartitems_uid, cart_id, item_id, quantity) VALUES(uuid_generate_v4(), ${cartID}::UUID, ${itemID}::UUID, 1)`
+  }else{
+    // const increaseCartItemsQuery = await prisma.$queryRaw`UPDATE cartitems SET quantity = SUM(quantity+1) WHERE cartitems_uid = ${itemAdded}::UUID`
+  }
+
+  
   ///Update cart here
   return null
 }
@@ -39,5 +42,5 @@ export default async function handler(
 ) {
   const data = req.body
   const response = await addItemsToCart(data.email, data.itemName)
-  res.status(200).json({ itemInfo: response })
+  res.status(200).json({ status: "Successful" })
 }
