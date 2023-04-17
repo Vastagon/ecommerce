@@ -12,7 +12,7 @@ create table users (
   users_uid UUID NOT NULL PRIMARY KEY,
   username VARCHAR(50),
   email VARCHAR(250) UNIQUE NOT NULL,
-  cart_id UUID UNIQUE NOT NULL,
+  cart_id UUID UNIQUE,
   purchased_orders TEXT [], /* Once a cart gets purchased. Add that id to this array, so we can see order history. */
   created_at timestamp
 );

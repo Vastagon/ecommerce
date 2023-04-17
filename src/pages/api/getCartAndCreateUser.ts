@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prisma from "../../components/prisma"
+import { uuid } from 'uuidv4'
 
 
 type Data = {
@@ -9,7 +10,9 @@ type Data = {
 async function getCart(data: any){
   const result: any = await prisma.$queryRaw`SELECT * FROM users WHERE email = ${data.email}`
 
+  ///if user exists
   if(result.length > 0){
+    // console.log(result)
     return result
   }else{
     //Create new user if first time logging in
@@ -19,10 +22,13 @@ async function getCart(data: any){
     //Create new cart if first time logging in
     const user_id_query: any = await prisma.$queryRaw`SELECT users_uid FROM users WHERE email = ${data.email}`
     const user_id = user_id_query[0].users_uid
+    const cartuid= uuid()
 
-    const newCart = await prisma.$queryRaw`INSERT INTO cart(cart_uid, user_id, created_at) VALUES (uuid_generate_v4(), ${user_id}::UUID, NOW())`
+    const newCart = await prisma.$queryRaw`INSERT INTO cart(cart_uid, user_id, created_at) VALUES (${cartuid}::UUID, ${user_id}::UUID, NOW())`
+    const assignCart = await prisma.$queryRaw`UPDATE users SET cart_id = ${cartuid}::UUID WHERE users_uid = ${user_id}::UUID`
+    
     ///Returns empty array
-    return newCart;
+    return "User created";
   }
 
 }
