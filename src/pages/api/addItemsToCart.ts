@@ -21,8 +21,11 @@ async function addItemsToCart(emailString: string, itemName: string){
 
   ///Check if item is already added
   const itemAddedQuery: any = await prisma.$queryRaw`SELECT cartitems_uid FROM cartitems WHERE cart_id = ${cartID}::UUID AND item_id = ${itemID}::UUID`
-  const itemAdded: string = itemAddedQuery[0].cartitems_uid
-  console.log(itemAdded)
+  
+  // if(itemAddedQuery.length > 0){
+  //   const itemAdded: string = itemAddedQuery[0].cartitems_uid
+  //   console.log(itemAdded)
+  // }
 
   ///If item hasn't been added to the cart
   if(itemAddedQuery.length === 0){

@@ -51,9 +51,9 @@ export default function App({ Component, pageProps: {session, ...pageProps} }: A
   async function getCartAndCreateUser(){
     if(sessionState){
       const res = await axios.post("http://localhost:3000/api/getCartAndCreateUser", {email: sessionState.user.email, username: sessionState.user.name})
-      
-      if(res.data.cart){
-        setCart(res.data.cart)
+      // console.log(res.data)
+      if(res.data.cart_items){
+        setCart(res.data.cart_items)
       }      
     }
   }
