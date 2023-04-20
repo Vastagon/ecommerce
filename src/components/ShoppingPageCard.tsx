@@ -66,9 +66,9 @@ export default function ShoppingPageCard(props: ShoppingPageProps){
   }, [])
 
   ///Decides if the card or the button was clicked
-  function cardClicked(e: any, id: number){
+  function cardClicked(e: any){
     if(e.target.name === "cart button"){
-      addToCart(item, item.title.toString(), cart)
+      addToCart(item, item.title)
     }else{
       goToItemPage(item.title)
     }
@@ -76,7 +76,7 @@ export default function ShoppingPageCard(props: ShoppingPageProps){
 
   if(!stars) return null
   return (
-    <div onClick={(e) => cardClicked(e, props.items_uid)} className={styles.store_page_card}>
+    <div onClick={(e) => cardClicked(e)} className={styles.store_page_card}>
       <Image className={styles.card_image} loader={() => props.image_path} width={100} height={200} alt="Item Image" src={props.image_path} />
       <p className={styles.card_title}>{props.title}</p>
 

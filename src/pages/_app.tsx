@@ -6,8 +6,14 @@ import { UserContext } from '@/components/UserContext'
 import { useState, useEffect } from "react"
 import axios from 'axios'
 
+// type cartComponents = {
+//   items_uid: string
+//   title: string
+//   image_path: string
+// }
+
 export default function App({ Component, pageProps: {session, ...pageProps} }: AppProps) {
-  const [cart, setCart] = useState<string[]>()
+  const [cart, setCart] = useState()
   const [sessionState, setSessionState] = useState<any>()
   const [showCartModal, setShowCartModal] = useState(false)
 
@@ -16,7 +22,7 @@ export default function App({ Component, pageProps: {session, ...pageProps} }: A
     setSessionState(await getSession())
   }
 
-  async function addToCart(item: any, itemRoute: string, cart: any){
+  async function addToCart(item: any, itemRoute: string){
     if(cart){
       if(sessionState){
         ///Add to user's cart DB
@@ -24,7 +30,7 @@ export default function App({ Component, pageProps: {session, ...pageProps} }: A
         getCartAndCreateUser()
       }else{
         ///Add to state
-        cart.push(item.title)
+        // cart.push(item.title)
       }            
     }
   }
@@ -34,12 +40,9 @@ export default function App({ Component, pageProps: {session, ...pageProps} }: A
 
     ///Click listener to close cart modal when clicking outside
     window.addEventListener("click", (e) =>{
-      console.log((e.target as HTMLTextAreaElement).id)
-      if((e.target as HTMLTextAreaElement).id === "cartModal" || (e.target as HTMLTextAreaElement).id === "cartIcon" || (e.target as HTMLTextAreaElement).name === "cartDelButton"){
-        ///Close modal
-      }else{
+      // console.log((e.target as HTMLTextAreaElement).id)
+      if((e.target as HTMLTextAreaElement).id !== "cartModal" && (e.target as HTMLTextAreaElement).id !== "cartIcon" && (e.target as HTMLTextAreaElement).name !== "cartDelButton"){
         setShowCartModal(false)
-        console.log("HERE")
       }
     })
   }, [])
@@ -51,7 +54,7 @@ export default function App({ Component, pageProps: {session, ...pageProps} }: A
   async function getCartAndCreateUser(){
     if(sessionState){
       const res = await axios.post("http://localhost:3000/api/getCartAndCreateUser", {email: sessionState.user.email, username: sessionState.user.name})
-      // console.log(res.data)
+
       if(res.data.cart_items){
         setCart(res.data.cart_items)
       }      

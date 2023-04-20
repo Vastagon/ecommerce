@@ -10,18 +10,17 @@ import { useContext } from "react"
 type itemInfo = {
     category: string
     count: number
-    description: string
+    item_description: string
     price: number
     rating: number
     title: string
-    image: string
+    image_path: string
 }
 
 export default function itemPage(){
     const {addToCart} = useContext(UserContext)
     const router = useRouter()
     const [item, setItem] = useState<itemInfo>()
-    const [cart, setCart] = useState<Array<string>>([])
     const [itemRoute, setItemRoute] = useState<any>()
 
     useEffect(() =>{
@@ -41,18 +40,18 @@ export default function itemPage(){
     if(!item) return <Loading />
     return(
         <main className={styles.item_page}>
-            <Image loader={() => item.image} width={100} height={100} src={item.image} className={styles.item_image} alt="ads" />
+            <Image width={100} height={100} src={item.image_path} className={styles.item_image} alt="ads" />
 
             <div className={styles.item_info}>
                 <h1>{item.title}</h1>
                 <div className={styles.rating_div}>
                     <p className={styles.rating_number}>⭐{item.rating}</p>
-                    <p>{item.count} Reviews</p>
+                    {/* <p>{item.count} Reviews</p> */}
                 </div>
                 <p className={styles.item_price}>${item.price}</p>
-                <p className={styles.item_description}>{item.description}</p>
+                <p className={styles.item_description}>{item.item_description}</p>
 
-                <button onClick={() => {addToCart(item, itemRoute, cart)}}>Add to Cart</button>
+                <button onClick={() => {addToCart(item, item.title)}}>Add to Cart</button>
             </div>
         </main>
     )
