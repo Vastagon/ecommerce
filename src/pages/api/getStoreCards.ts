@@ -6,10 +6,11 @@ type Data = {
   storeCards: any
 }
 
-async function returnCards(){
+async function returnCards() {
   // const data = await prisma.items.findMany()
-  const res = await prisma.$queryRaw`SELECT * FROM items ORDER BY rating DESC LIMIT 20`;
+  // const res = await prisma.$queryRaw`SELECT * FROM items ORDER BY rating DESC LIMIT 20`;
 
+  const res = await prisma.$queryRaw`SELECT * FROM items LIMIT 20`;
 
   return res;
 }

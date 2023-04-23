@@ -1,6 +1,6 @@
 import styles from "../styles/Navbar.module.css";
 import Link from "next/link";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useSession, signOut } from "next-auth/react";
 import { UserContext } from "./UserContext";
@@ -38,7 +38,7 @@ export default function Navbar(props: NavbarProps) {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
-  let profileImage = "";
+  const [profileImage, setProfileImage] = useState("");
 
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -74,23 +74,24 @@ export default function Navbar(props: NavbarProps) {
     props.setShowCartModal((prev: any) => !prev);
   }
 
-  ///Gets profile image
-  if (session) {
-    if (session.user) {
-      if (session.user.image) {
-        profileImage = session.user.image;
+
+
+  useEffect(() => {
+    ///Gets profile image
+    if (session) {
+      if (session.user) {
+        if (session.user.image) {
+          setProfileImage(session.user.image);
+        }
       }
     }
-  } else {
-    profileImage = "https://cdn-icons-png.flaticon.com/512/6522/6522516.png";
-  }
+  }, [session]);
 
   if (!cart) setCart([]);
-  if (profileImage.length === 0 || !cart) return null;
+  if (!cart) return null;
 
   return (
-
-    <AppBar position="static">
+    <AppBar style={{ backgroundColor: "#19376D" }} position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
@@ -109,7 +110,7 @@ export default function Navbar(props: NavbarProps) {
               textDecoration: "none",
             }}
           >
-            LOGO
+            E-Commerce
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -165,7 +166,7 @@ export default function Navbar(props: NavbarProps) {
               textDecoration: "none",
             }}
           >
-            LOGO
+            E-Commerce
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
@@ -179,8 +180,17 @@ export default function Navbar(props: NavbarProps) {
             ))}
           </Box>
 
-
-          <Badge badgeContent={cart.length} color="error">
+          {/* style={{ backgroundColor: "#576CBC" }} */}
+          <Badge
+            onClick={() => { goToRoute("Cart"); }}
+            sx={{
+              "& .MuiBadge-badge": {
+                color: "#A5D7E8",
+                backgroundColor: "#576CBC"
+              }
+            }}
+            badgeContent={cart.length}
+            color="error">
             <ShoppingCartIcon color='action' />
           </Badge>
 
@@ -188,7 +198,7 @@ export default function Navbar(props: NavbarProps) {
           <Box sx={{ marginLeft: 3, flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Remy Sharp" src={profileImage.length > 0 ? profileImage : "https://cdn-icons-png.flaticon.com/512/6522/6522516.png"} />
               </IconButton>
             </Tooltip>
             <Menu
