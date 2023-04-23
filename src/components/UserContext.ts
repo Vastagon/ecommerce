@@ -1,4 +1,4 @@
-import { createContext } from "react"
+import { createContext } from "react";
 
 type userContextProps = {
     addToCart: any
@@ -7,4 +7,4 @@ type userContextProps = {
     setCart: any
 }
 
-export const UserContext = createContext<userContextProps>({addToCart: [], cart: [], setCart: [], sessionState: {}})  
+export const UserContext = createContext<userContextProps>({addToCart: [], cart: [], setCart: [], sessionState: {}});  

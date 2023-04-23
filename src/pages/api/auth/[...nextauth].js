@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import NextAuth from "next-auth"
+import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions = {
@@ -12,6 +12,6 @@ export const authOptions = {
   callbacks: {
   },
   secret: process.env.NEXTAUTH_SECRET,
-}
+};
 
-export default NextAuth(authOptions)
+export default NextAuth(authOptions);

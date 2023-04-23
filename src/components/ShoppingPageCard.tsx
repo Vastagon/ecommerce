@@ -1,12 +1,12 @@
-import Image from "next/image"
-import styles from "../styles/Store.module.css"
-import { useRouter } from 'next/router'
-import { useContext, useEffect, useState } from "react"
-import { UserContext } from "./UserContext"
-import fullStar from "../../public/images/fullstar-cropped.png"
-import halfStar from "../../public/images/halfstar-cropped.png"
-import emptyStar from "../../public/images/emptystar-cropped.png"
-import { uuid } from "uuidv4"
+import Image from "next/image";
+import styles from "../styles/Store.module.css";
+import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "./UserContext";
+import fullStar from "../../public/images/fullstar-cropped.png";
+import halfStar from "../../public/images/halfstar-cropped.png";
+import emptyStar from "../../public/images/emptystar-cropped.png";
+import { uuid } from "uuidv4";
 
 
 type ShoppingPageProps = {
@@ -20,61 +20,61 @@ type ShoppingPageProps = {
 
 
 export default function ShoppingPageCard(props: ShoppingPageProps){
-  const {addToCart, cart} = useContext(UserContext)
-  const [stars, setStars] = useState<any>()
-  const item =  {title: props.title, image_path: props.image_path, id: props.items_uid, price: props.price, rating: props.rating}
-  const router = useRouter()
+  const {addToCart, cart} = useContext(UserContext);
+  const [stars, setStars] = useState<any>();
+  const item =  {title: props.title, image_path: props.image_path, id: props.items_uid, price: props.price, rating: props.rating};
+  const router = useRouter();
 
   function goToItemPage(title: string){
-    router.push(`/Store/${title}`)
+    router.push(`/Store/${title}`);
   }
 
   useEffect(() =>{
-    const tempArray = []
+    const tempArray = [];
     ///This is 3
-    const fullStars = Math.floor(props.rating)
+    const fullStars = Math.floor(props.rating);
     ///This is half
-    const halfStars = props.rating - fullStars
+    const halfStars = props.rating - fullStars;
 
 
     ///Need one more that's empty
-    let halfStarCreated = false
+    let halfStarCreated = false;
     for(let i = 0; i < 5; i++){
       if(fullStars > i){
-        tempArray.push("full")
+        tempArray.push("full");
       }else if((halfStars > .3 && halfStars < .9) && !halfStarCreated){
-        tempArray.push("half")
-        halfStarCreated = true
+        tempArray.push("half");
+        halfStarCreated = true;
       }else{
-        tempArray.push("empty")
+        tempArray.push("empty");
       }
     }
 
     setStars(tempArray.map((prev) => {
-      let selectedImage
-      if(prev === "full") selectedImage = fullStar
-      if(prev === "half") selectedImage = halfStar
-      if(prev === "empty") selectedImage = emptyStar
+      let selectedImage;
+      if(prev === "full") selectedImage = fullStar;
+      if(prev === "half") selectedImage = halfStar;
+      if(prev === "empty") selectedImage = emptyStar;
 
       if(selectedImage)
-      return(
-        <Image key={uuid()} className={styles.stars} width={10} height={10} alt="Item Image" src={selectedImage} />
-      )      
-    }))
+        return(
+          <Image key={uuid()} className={styles.stars} width={10} height={10} alt="Item Image" src={selectedImage} />
+        );      
+    }));
 
 
-  }, [])
+  }, []);
 
   ///Decides if the card or the button was clicked
   function cardClicked(e: any){
     if(e.target.name === "cart button"){
-      addToCart(item, item.title)
+      addToCart(item, item.title);
     }else{
-      goToItemPage(item.title)
+      goToItemPage(item.title);
     }
   }
 
-  if(!stars) return null
+  if(!stars) return null;
   return (
     <div onClick={(e) => cardClicked(e)} className={styles.store_page_card}>
       <Image className={styles.card_image} loader={() => props.image_path} width={100} height={200} alt="Item Image" src={props.image_path} />
@@ -88,7 +88,7 @@ export default function ShoppingPageCard(props: ShoppingPageProps){
 
       <button name="cart button" className={styles.card_button}>Add to cart</button>
     </div>
-  )
+  );
 }
 
 // &#11088;

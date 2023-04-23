@@ -1,12 +1,12 @@
-import styles from "@/styles/QuantityChange.module.css"
-import { useState } from "react"
+import styles from "@/styles/QuantityChange.module.css";
+import { useState } from "react";
 
 export default function QuantityChange(){
-    const [showDropdown, setShowDropdown] = useState()
+  const [showDropdown, setShowDropdown] = useState();
 
-    return(
-        <div className={styles.container}>
+  return(
+    <div className={styles.container}>
             
-        </div>
-    )
+    </div>
+  );
 }
