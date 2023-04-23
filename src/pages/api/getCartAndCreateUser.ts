@@ -10,22 +10,24 @@ type Data = {
 async function getCart(data: any){
   // const result: any = await prisma.$queryRaw`SELECT * FROM users WHERE email = ${data.email}`
   const user_id_query: any = await prisma.$queryRaw`SELECT users_uid FROM users WHERE email = ${data.email}`
-  const user_id = user_id_query[0].users_uid
 
   ///if user exists
   if(user_id_query.length > 0){
-    const cart = await prisma.$queryRaw`SELECT items_uid, title, image_path FROM items JOIN cartitems ON items.items_uid = item_id;`
+    const user_id = user_id_query[0].users_uid
+    const cart_id_query: any = await prisma.$queryRaw`SELECT cart_uid FROM cart WHERE user_id = ${user_id}::UUID`
+    const cart_id = cart_id_query[0].cart_uid
+
+    const cart = await prisma.$queryRaw`SELECT items_uid, title, image_path FROM items JOIN cartitems ON items.items_uid = item_id WHERE cart_id = ${cart_id}::UUID;`
 
     return cart
   }else{
     //Create new user if first time logging in
-    const createUser = await prisma.$queryRaw`INSERT INTO users(users_uid, username, email, created_at) VALUES(uuid_generate_v4(), ${data.username}, ${data.email}, NOW())`
+    const user_id = uuid()
+
+    const createUser = await prisma.$queryRaw`INSERT INTO users(users_uid, username, email, created_at) VALUES(${user_id}::UUID, ${data.username}, ${data.email}, NOW())`
 
     //Create new cart if first time logging in
-    // const user_id_query: any = await prisma.$queryRaw`SELECT users_uid FROM users WHERE email = ${data.email}`
-    // const user_id = user_id_query[0].users_uid
     const cartuid= uuid()
-
     const newCart = await prisma.$queryRaw`INSERT INTO cart(cart_uid, user_id, created_at) VALUES (${cartuid}::UUID, ${user_id}::UUID, NOW())`
     const assignCart = await prisma.$queryRaw`UPDATE users SET cart_id = ${cartuid}::UUID WHERE users_uid = ${user_id}::UUID`
     

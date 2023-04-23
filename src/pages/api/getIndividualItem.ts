@@ -10,7 +10,6 @@ type Data = {
 async function getItem(title: string){
   const result: any = await prisma.$queryRaw`SELECT * FROM items WHERE title = ${title}`
   const resultDestructured = result[0]
-  console.log(result)
   
   return resultDestructured
 }
