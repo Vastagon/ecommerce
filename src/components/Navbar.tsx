@@ -187,6 +187,14 @@ export default function Navbar(props: NavbarProps) {
               "& .MuiBadge-badge": {
                 color: "#A5D7E8",
                 backgroundColor: "#576CBC"
+              },
+              "&:hover": {
+                cursor: "pointer",
+                borderRadius: 1,
+                borderColor: "red",
+                borderStyle: "solid",
+                borderWidth: 1,
+                width: 25
               }
             }}
             badgeContent={cart.length}
