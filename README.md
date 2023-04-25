@@ -2,6 +2,13 @@
 
 An ecommerce website built using NextJS and PostgreSQL that allows user to add items to cart, uses dynamic routes for each item, and allows them to sign-in for a wishlist and to persist the items in their cart. This is using nextauth.
 
+# Setup the Developer Enviornment
+1. Download the repo and install node modules with `npm install`
+2. Install PostgreSQL if you don't already have it installed
+3. Open a PSQL shell and create a database called ecommerce
+4. Run the sql files in the script folder with `\i` in this order: Ecommerce > Items > Users
+5. Run the enviornment with `npm run dev`
+
 ## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
