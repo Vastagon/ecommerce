@@ -14,6 +14,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import Rating from "@mui/material/Rating";
+import Box from "@mui/material/Box";
 
 
 type ShoppingPageProps = {
@@ -23,7 +24,6 @@ type ShoppingPageProps = {
   price: number
   rating: number
 }
-
 
 
 export default function ShoppingPageCard(props: ShoppingPageProps) {
@@ -91,16 +91,18 @@ export default function ShoppingPageCard(props: ShoppingPageProps) {
           image={props.image_path}
           alt="green iguana"
         />
+
         <CardContent>
-          <Typography gutterBottom variant="h6" component="div">
+          <Typography component="div">
             {props.title}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {props.rating}
-          </Typography>
 
-          <Rating name="read-only" value={props.rating} readOnly />
+          <Typography sx={{ marginTop: 1 }} gutterBottom><b>${props.price}</b></Typography>
 
+          <Box sx={{ display: "flex" }}>
+            <Rating size="small" name="read-only" value={props.rating} readOnly />
+            <Typography color="text.secondary" fontSize={12} sx={{ marginLeft: .7, marginBottom: .2, marginTop: "auto", lineHeight: 1 }}>2</Typography>
+          </Box>
         </CardContent>
       </CardActionArea>
     </Card>

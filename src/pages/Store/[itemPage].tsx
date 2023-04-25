@@ -13,6 +13,8 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Rating from "@mui/material/Rating";
 
 
 type itemInfo = {
@@ -53,31 +55,41 @@ export default function itemPage() {
   if (!item) return <Loading />;
   return (
     <main>
-      <Box>
-        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-          <InputLabel id="demo-simple-select-standard-label">Quantity</InputLabel>
-          <Select
-            labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
-            value={quantity}
-            onChange={handleChange}
-            label="Quantity"
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={1}>1</MenuItem>
-            <MenuItem value={2}>2</MenuItem>
-            <MenuItem value={3}>3</MenuItem>
-            <MenuItem value={4}>4</MenuItem>
-            <MenuItem value={5}>5</MenuItem>
-            <MenuItem value={6}>6</MenuItem>
-            <MenuItem value={7}>7</MenuItem>
-            <MenuItem value={8}>8</MenuItem>
-            <MenuItem value={9}>9</MenuItem>
-            <MenuItem value={10}>10</MenuItem>
-          </Select>
-        </FormControl>
+      <Box justifyContent="center" alignItems="center" minHeight="70vh" display="flex">
+        <Image width={100} height={10} src={item.image_path} className={styles.item_image} alt="ads" />
+
+        <Box paddingLeft={5} paddingRight={5} paddingTop={2} sx={{ backgroundColor: "blue", width: "40%", height: "30vw" }}>
+          <Typography borderBottom={2} borderColor="red" variant="h3">{item.title}</Typography>
+
+          <Rating sx={{ marginTop: 1 }} size="small" name="read-only" value={item.rating} readOnly />
+          <Typography>${item.price}</Typography>
+          <Typography>{item.item_description}</Typography>
+
+          <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+            <InputLabel id="demo-simple-select-standard-label">Quantity</InputLabel>
+            <Select
+              labelId="demo-simple-select-standard-label"
+              id="demo-simple-select-standard"
+              value={quantity}
+              onChange={handleChange}
+              label="Quantity"
+            >
+              <MenuItem value={0}>
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value={1}>1</MenuItem>
+              <MenuItem value={2}>2</MenuItem>
+              <MenuItem value={3}>3</MenuItem>
+              <MenuItem value={4}>4</MenuItem>
+              <MenuItem value={5}>5</MenuItem>
+              <MenuItem value={6}>6</MenuItem>
+              <MenuItem value={7}>7</MenuItem>
+              <MenuItem value={8}>8</MenuItem>
+              <MenuItem value={9}>9</MenuItem>
+              <MenuItem value={10}>10</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
       </Box>
     </main>
   );

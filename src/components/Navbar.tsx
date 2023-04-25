@@ -108,6 +108,10 @@ export default function Navbar(props: NavbarProps) {
               letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
+
+              "&:hover": {
+                cursor: "pointer"
+              }
             }}
           >
             E-Commerce
@@ -164,6 +168,10 @@ export default function Navbar(props: NavbarProps) {
               letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
+
+              "&:hover": {
+                cursor: "pointer"
+              }
             }}
           >
             E-Commerce
