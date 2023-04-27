@@ -15,13 +15,22 @@ type cardProps = {
   image_path: string
   id: number
 }
-///DATABASE_URL="postgresql://postgres:Vastagon1@localhost:2375/ecommerce?schema=public"
 
 
 export default function Store() {
   const [items, setItems] = useState<cardProps>();
   const [totalPages, setTotalPages] = useState<number>();
   const [cards, setCards] = useState();
+
+  const env = process.env.NODE_ENV
+  if(env == "development"){
+    // do something
+    console.log("DEV")
+  }
+  else if (env == "production"){
+    console.log("PROD")
+   // do something
+  }
 
   async function getStoreCards() {
     const req = await axios.post("http://localhost:3000/api/getStoreCards", { pageClicked: 0 });
