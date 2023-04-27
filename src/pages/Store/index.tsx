@@ -22,14 +22,14 @@ export default function Store() {
   const [totalPages, setTotalPages] = useState<number>();
   const [cards, setCards] = useState();
 
-  const env = process.env.NODE_ENV
+  const env = process.env.NODE_ENV;
   if(env == "development"){
     // do something
-    console.log("DEV")
+    console.log("DEV");
   }
   else if (env == "production"){
-    console.log("PROD")
-   // do something
+    console.log("PROD");
+    // do something
   }
 
   async function getStoreCards() {
