@@ -5,18 +5,16 @@ import { getSession, SessionProvider } from "next-auth/react";
 import { UserContext } from "@/components/UserContext";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-// type cartComponents = {
-//   items_uid: string
-//   title: string
-//   image_path: string
-// }
 
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const [cart, setCart] = useState();
   const [sessionState, setSessionState] = useState<any>();
   const [showCartModal, setShowCartModal] = useState(false);
+
+  const serverURI: string = prodOrDev() || "";
+
 
   const theme = createTheme({
     palette: {
@@ -43,7 +41,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     if (cart) {
       if (sessionState) {
         ///Add to user's cart DB
-        const res = await axios.post("http://localhost:3000/api/addItemsToCart", { email: sessionState!.user!.email, itemName: itemRoute });
+        const res = await axios.post(`${serverURI}/api/addItemsToCart`, { email: sessionState!.user!.email, itemName: itemRoute });
         getCartAndCreateUser();
       } else {
         ///Add to state
@@ -54,7 +52,6 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
 
   useEffect(() => {
     getSessionFunction();
-
     ///Click listener to close cart modal when clicking outside
     window.addEventListener("click", (e) => {
       // console.log((e.target as HTMLTextAreaElement).id)
@@ -70,7 +67,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
 
   async function getCartAndCreateUser() {
     if (sessionState) {
-      const res = await axios.post("http://localhost:3000/api/getCartAndCreateUser", { email: sessionState.user.email, username: sessionState.user.name });
+      const res = await axios.post(`${serverURI}/api/getCartAndCreateUser`, { email: sessionState.user.email, username: sessionState.user.name });
 
       if (res.data.cart_items) {
         setCart(res.data.cart_items);
@@ -78,10 +75,20 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     }
   }
 
+  function prodOrDev(){
+    const env = process.env.NODE_ENV;
+    if(env == "development"){
+      return "http://localhost:3000";
+    }
+    else if (env == "production"){
+      return "https://ecommerce-rho-wine.vercel.app/";
+    }
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <SessionProvider session={session}>
-        <UserContext.Provider value={{ addToCart, cart, setCart, sessionState }}>
+        <UserContext.Provider value={{ addToCart, cart, setCart, sessionState, serverURI }}>
           <Navbar showCartModal={showCartModal} setShowCartModal={setShowCartModal} />
           <Component {...pageProps} />
         </UserContext.Provider>

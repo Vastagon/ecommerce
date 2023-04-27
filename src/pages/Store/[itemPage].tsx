@@ -28,7 +28,7 @@ type itemInfo = {
 }
 
 export default function itemPage() {
-  const { addToCart } = useContext(UserContext);
+  const { addToCart, serverURI } = useContext(UserContext);
   const router = useRouter();
   const [item, setItem] = useState<itemInfo>();
   const [itemRoute, setItemRoute] = useState<any>();
@@ -43,7 +43,7 @@ export default function itemPage() {
   }, [router.isReady]);
 
   async function getCardInfo(itemRoute: string | string[] | undefined) {
-    const res = await axios.post("http://localhost:3000/api/getIndividualItem", { id: itemRoute });
+    const res = await axios.post(`${serverURI}/api/getIndividualItem`, { id: itemRoute });
     setItem(res.data.itemInfo);
   }
 

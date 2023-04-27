@@ -5,6 +5,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Loading from "@/components/Loading";
 
+import { UserContext } from "../../components/UserContext";
+import { useContext } from "react";
+
 import { Container, Grid } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 
@@ -18,22 +21,13 @@ type cardProps = {
 
 
 export default function Store() {
+  const { serverURI } = useContext(UserContext);
   const [items, setItems] = useState<cardProps>();
   const [totalPages, setTotalPages] = useState<number>();
   const [cards, setCards] = useState();
 
-  const env = process.env.NODE_ENV;
-  if(env == "development"){
-    // do something
-    console.log("DEV");
-  }
-  else if (env == "production"){
-    console.log("PROD");
-    // do something
-  }
-
   async function getStoreCards() {
-    const req = await axios.post("http://localhost:3000/api/getStoreCards", { pageClicked: 0 });
+    const req = await axios.post(`${serverURI}/api/getStoreCards`, { pageClicked: 0 });
 
     setTotalPages(req.data.totalPages);
     setItems(req.data.pageItems);
@@ -42,7 +36,7 @@ export default function Store() {
   async function routeToPage(e: any) {
     const pageClicked = parseInt(e.target.innerText);
 
-    const req = await axios.post("http://localhost:3000/api/getStoreCards", { pageClicked: pageClicked });
+    const req = await axios.post(`${serverURI}/api/getStoreCards`, { pageClicked: pageClicked });
     setItems(req.data.pageItems);
   }
 

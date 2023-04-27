@@ -9,14 +9,14 @@ import { useRouter } from "next/router";
 
 export default function CartModal(){
   const router = useRouter();
-  const {cart, setCart, sessionState} = useContext(UserContext);
+  const {cart, setCart, sessionState, serverURI} = useContext(UserContext);
   const [itemListDivs, setItemListDivs] = useState();
 
   async function cardOrButtonClicked(e: any, routerPath: string){
     if(e.target.name === "cartDelButton"){
       //Remove item from cart here
 
-      const req = await axios.post("http://localhost:3000/api/deleteItemFromCart", {title: routerPath, email: sessionState!.user!.email});
+      const req = await axios.post(`${serverURI}/api/deleteItemFromCart`, {title: routerPath, email: sessionState!.user!.email});
             
     }else{
       ///Go to page here

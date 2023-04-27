@@ -5,6 +5,7 @@ type userContextProps = {
     cart: any
     sessionState: any
     setCart: any
+    serverURI: string
 }
 
-export const UserContext = createContext<userContextProps>({addToCart: [], cart: [], setCart: [], sessionState: {}});  
+export const UserContext = createContext<userContextProps>({addToCart: [], cart: [], setCart: [], sessionState: {}, serverURI: ""});  
