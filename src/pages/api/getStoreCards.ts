@@ -13,6 +13,7 @@ async function returnCards(pageClicked: number) {
   let totalItems: any = await prisma.$queryRaw`SELECT COUNT(*) as totalitems FROM items;`;
   ///Normal query returns a bigInt, so I need to do this to get rid of the n at the end and convert it to a number I can use
   totalItems = parseInt(totalItems[0].totalitems.toString());
+  console.log(totalItems);
 
   const totalPages = Math.floor(totalItems / 20);
 

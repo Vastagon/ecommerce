@@ -7,7 +7,6 @@ import Loading from "@/components/Loading";
 
 import { Container, Grid } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
-import PaginationItem from "@mui/material/PaginationItem";
 
 
 type cardProps = {
@@ -16,6 +15,7 @@ type cardProps = {
   image_path: string
   id: number
 }
+///DATABASE_URL="postgresql://postgres:Vastagon1@localhost:2375/ecommerce?schema=public"
 
 
 export default function Store() {
