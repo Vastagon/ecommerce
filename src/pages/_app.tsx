@@ -13,7 +13,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
   const [sessionState, setSessionState] = useState<any>();
   const [showCartModal, setShowCartModal] = useState(false);
 
-  const serverURI = "http://localhost:3000";
+  const serverURI = prodOrDev() || "";
 
 
   const theme = createTheme({
