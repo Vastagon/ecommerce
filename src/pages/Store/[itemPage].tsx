@@ -30,7 +30,7 @@ type itemInfo = {
 }
 
 type itemProps = {
-  data: any
+  item: any
 }
 
 export async function getStaticPaths(){
@@ -44,77 +44,54 @@ export async function getStaticPaths(){
     params: { itemPage: item.title },
   }));
 
-  return{
-    paths: [
-      {
-        params: {itemPage: "Calaloo"}
-      }
-    ],
-    fallback: false
-  };
 
-  console.log(paths);
-  // return { paths, fallback: false };
+
+  return { paths, fallback: false };
 }
 
 export async function getStaticProps(context: any){
   const { params } = context;
 
-  console.log(params);
-  // const serverURI = prodOrDev() || "";
+  const serverURI = prodOrDev() || "";
 
   // const res = await axios.post(`${serverURI}/api/getAllStoreCards`);
 
-  // // const res = await axios.post(`${serverURI}/api/getIndividualItem`, { id: itemRoute });
-  // const item = res.data.itemInfo;
+  const res = await axios.post(`${serverURI}/api/getIndividualItem`, { id: params.itemPage });
+  const item = res.data.itemInfo;
 
 
 
 
 
   return{
-    props: {}
+    props: {item: item}
   };
 }
 
 export default function itemPage(props: itemProps) {
   console.log(props);
-  const { addToCart, serverURI } = useContext(UserContext);
-  const router = useRouter();
-  const [item, setItem] = useState<itemInfo>();
-  const [itemRoute, setItemRoute] = useState<any>();
+  const { addToCart } = useContext(UserContext);
   const [quantity, setQuantity] = useState("");
 
 
-  useEffect(() => {
-    if (router.isReady) {
-      setItemRoute(router.query.itemPage);
-      getCardInfo(router.query.itemPage);
-    }
-  }, [router.isReady]);
-
-  async function getCardInfo(itemRoute: string | string[] | undefined) {
-    const res = await axios.post(`${serverURI}/api/getIndividualItem`, { id: itemRoute });
-    setItem(res.data.itemInfo);
-  }
-
   const handleChange = (event: SelectChangeEvent) => {
-    setQuantity(event.target.value);
+    addToCart(props.item.title, event.target.value);
+    // setQuantity(event.target.value);
   };
 
   ///I can use category for a tag search system
-  if (!item) return <Loading />;
+  if (!props.item) return <Loading />;
   return (
     <main>
       <Box justifyContent="center" alignItems="center" minHeight="70vh" display="flex">
-        <Image width={100} height={10} src={item.image_path} className={styles.item_image} alt="ads" />
+        <Image width={100} height={10} src={props.item.image_path} className={styles.item_image} alt="ads" />
 
         <Box paddingLeft={5} paddingRight={5} paddingTop={2} sx={{ backgroundColor: "blue", width: "40%", height: "30vw" }}>
-          <Typography borderBottom={2} borderColor="red" variant="h3">{item.title}</Typography>
+          <Typography borderBottom={2} borderColor="red" variant="h3">{props.item.title}</Typography>
 
-          <Rating sx={{ marginTop: 1 }} size="small" name="read-only" value={item.rating} readOnly />
-          <Typography>${item.price}</Typography>
-          <Typography>{item.item_description}</Typography>
+          <Rating sx={{ marginTop: 1 }} size="small" name="read-only" value={props.item.rating} readOnly />
+          <Typography>${props.item.price}</Typography>
+          <Typography>{props.item.item_description}</Typography>
 
           <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
             <InputLabel id="demo-simple-select-standard-label">Quantity</InputLabel>

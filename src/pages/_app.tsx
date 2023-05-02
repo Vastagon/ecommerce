@@ -37,11 +37,11 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     setSessionState(await getSession());
   }
 
-  async function addToCart(item: any, itemRoute: string) {
+  async function addToCart(itemRoute: string, quantity: number) {
     if (cart) {
       if (sessionState) {
         ///Add to user's cart DB
-        const res = await axios.post(`${serverURI}/api/addItemsToCart`, { email: sessionState!.user!.email, itemName: itemRoute });
+        const res = await axios.post(`${serverURI}/api/addItemsToCart`, { email: sessionState!.user!.email, itemName: itemRoute, quantity: quantity });
         getCartAndCreateUser();
       } else {
         ///Add to state
