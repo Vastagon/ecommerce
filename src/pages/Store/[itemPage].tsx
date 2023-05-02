@@ -69,7 +69,7 @@ export async function getStaticProps(context: any){
 }
 
 export default function itemPage(props: itemProps) {
-  console.log(props);
+  // console.log(props);
   const { addToCart } = useContext(UserContext);
   const [quantity, setQuantity] = useState("");
 
