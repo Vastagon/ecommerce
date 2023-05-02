@@ -16,6 +16,8 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Rating from "@mui/material/Rating";
 
+import { prodOrDev } from "../../components/helperFunctions/ProdOrDev";
+
 
 type itemInfo = {
   category: string
@@ -27,7 +29,56 @@ type itemInfo = {
   image_path: string
 }
 
-export default function itemPage() {
+type itemProps = {
+  data: any
+}
+
+export async function getStaticPaths(){
+  const serverURI = prodOrDev() || "";
+
+  const req = await axios.post(`${serverURI}/api/getAllStoreCards`);
+  // const allItems = req.data.allItems;
+  const allItems = req.data.allItems;
+
+  const paths = allItems.map((item: any) => ({
+    params: { itemPage: item.title },
+  }));
+
+  return{
+    paths: [
+      {
+        params: {itemPage: "Calaloo"}
+      }
+    ],
+    fallback: false
+  };
+
+  console.log(paths);
+  // return { paths, fallback: false };
+}
+
+export async function getStaticProps(context: any){
+  const { params } = context;
+
+  console.log(params);
+  // const serverURI = prodOrDev() || "";
+
+  // const res = await axios.post(`${serverURI}/api/getAllStoreCards`);
+
+  // // const res = await axios.post(`${serverURI}/api/getIndividualItem`, { id: itemRoute });
+  // const item = res.data.itemInfo;
+
+
+
+
+
+  return{
+    props: {}
+  };
+}
+
+export default function itemPage(props: itemProps) {
+  console.log(props);
   const { addToCart, serverURI } = useContext(UserContext);
   const router = useRouter();
   const [item, setItem] = useState<itemInfo>();
@@ -94,46 +145,3 @@ export default function itemPage() {
     </main>
   );
 }
-
-
-
-
-
-// <Image width={100} height={100} src={item.image_path} className={styles.item_image} alt="ads" />
-
-// <div className={styles.item_info}>
-//   <h1>{item.title}</h1>
-//   <div className={styles.rating_div}>
-//     <p className={styles.rating_number}>⭐{item.rating}</p>
-//     {/* <p>{item.count} Reviews</p> */}
-//   </div>
-//   <p className={styles.item_price}>${item.price}</p>
-//   <p className={styles.item_description}>{item.item_description}</p>
-
-//   <button onClick={() => { addToCart(item, item.title); }}>Add to Cart</button>
-
-//   <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-//     <InputLabel id="demo-simple-select-standard-label">Quantity</InputLabel>
-//     <Select
-//       labelId="demo-simple-select-standard-label"
-//       id="demo-simple-select-standard"
-//       value={quantity}
-//       onChange={handleChange}
-//       label="Quantity"
-//     >
-//       <MenuItem value="">
-//         <em>None</em>
-//       </MenuItem>
-//       <MenuItem value={1}>1</MenuItem>
-//       <MenuItem value={2}>2</MenuItem>
-//       <MenuItem value={3}>3</MenuItem>
-//       <MenuItem value={4}>4</MenuItem>
-//       <MenuItem value={5}>5</MenuItem>
-//       <MenuItem value={6}>6</MenuItem>
-//       <MenuItem value={7}>7</MenuItem>
-//       <MenuItem value={8}>8</MenuItem>
-//       <MenuItem value={9}>9</MenuItem>
-//       <MenuItem value={10}>10</MenuItem>
-//     </Select>
-//   </FormControl>
-// </div>

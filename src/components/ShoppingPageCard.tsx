@@ -7,6 +7,7 @@ import fullStar from "../../public/images/fullstar-cropped.png";
 import halfStar from "../../public/images/halfstar-cropped.png";
 import emptyStar from "../../public/images/emptystar-cropped.png";
 import { uuid } from "uuidv4";
+import Link from "next/link";
 
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -72,55 +73,36 @@ export default function ShoppingPageCard(props: ShoppingPageProps) {
 
   }, []);
 
-  ///Decides if the card or the button was clicked
-  function cardClicked(e: any) {
-    if (e.target.name === "cart button") {
-      addToCart(item, item.title);
-    } else {
-      goToItemPage(item.title);
-    }
-  }
 
   if (!stars) return null;
   return (
-    <Card elevation={3} onClick={() => { goToItemPage(item.title); }} sx={{ maxWidth: 645 }}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="140"
-          image={props.image_path}
-          alt="green iguana"
-        />
+    <Link href={`/Store/${item.title}`}>
+      <Card elevation={3} onClick={() => { goToItemPage(item.title); }} sx={{ maxWidth: 645 }}>
+        <CardActionArea>
+          <CardMedia
+            component="img"
+            height="140"
+            image={props.image_path}
+            alt="green iguana"
+          />
 
-        <CardContent>
-          <Typography component="div">
-            {props.title}
-          </Typography>
+          <CardContent>
+            <Typography component="div">
+              {props.title}
+            </Typography>
 
-          <Typography sx={{ marginTop: 1 }} gutterBottom><b>${props.price}</b></Typography>
+            <Typography sx={{ marginTop: 1 }} gutterBottom><b>${props.price}</b></Typography>
 
-          <Box sx={{ display: "flex" }}>
-            <Rating size="small" name="read-only" value={props.rating} readOnly />
-            <Typography color="text.secondary" fontSize={12} sx={{ marginLeft: .7, marginBottom: .2, marginTop: "auto", lineHeight: 1 }}>2</Typography>
-          </Box>
-        </CardContent>
-      </CardActionArea>
-    </Card>
+            <Box sx={{ display: "flex" }}>
+              <Rating size="small" name="read-only" value={props.rating} readOnly />
+              <Typography color="text.secondary" fontSize={12} sx={{ marginLeft: .7, marginBottom: .2, marginTop: "auto", lineHeight: 1 }}>2</Typography>
+            </Box>
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    </Link>
   );
 }
 
 // &#11088;
 
-
-{/* <div onClick={(e) => cardClicked(e)} className={styles.store_page_card}>
-<Image className={styles.card_image} loader={() => props.image_path} width={100} height={200} alt="Item Image" src={props.image_path} />
-<p className={styles.card_title}>{props.title}</p>
-
-<div className={styles.card_price_and_review_container}>
-  <p className={styles.card_price}>${props.price}</p>
-  <p className={styles.card_rating}>{props.rating}</p>
-  {stars}
-</div>
-
-<button name="cart button" className={styles.card_button}>Add to cart</button>
-</div> */}
