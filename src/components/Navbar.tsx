@@ -22,23 +22,39 @@ import AdbIcon from "@mui/icons-material/Adb";
 import Badge from "@mui/material/Badge";
 
 type NavbarProps = {
-  showCartModal: boolean
-  setShowCartModal: any
+  profileImage: string
 }
 
 const pages = ["Store", "Pricing", "Blog"];
 const settings = ["Profile", "Logout"];
 
+export async function getStaticProps(){
+  const { data: session } = useSession();
+  let profileImage;
+
+  if (session) {
+    if (session.user) {
+      if (session.user.image) {
+        profileImage = session.user.image;
+      }
+    }
+  }
+
+  return{
+    props:  {profileImage: profileImage}
+  };
+}
+
 
 export default function Navbar(props: NavbarProps) {
-  const router = useRouter();
+  // const router = useRouter();
   const { cart, setCart } = useContext(UserContext);
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
-  const [profileImage, setProfileImage] = useState("");
+  // const [profileImage, setProfileImage] = useState("");
 
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -67,25 +83,25 @@ export default function Navbar(props: NavbarProps) {
   };
 
   function goToRoute(routePath: string) {
-    router.push(`/${routePath}`);
+    // router.push(`/${routePath}`);
   }
 
-  function openCartContainer() {
-    props.setShowCartModal((prev: any) => !prev);
-  }
+  // function openCartContainer() {
+  //   props.setShowCartModal((prev: any) => !prev);
+  // }
 
 
 
-  useEffect(() => {
-    ///Gets profile image
-    if (session) {
-      if (session.user) {
-        if (session.user.image) {
-          setProfileImage(session.user.image);
-        }
-      }
-    }
-  }, [session]);
+  // useEffect(() => {
+  //   ///Gets profile image
+  //   if (session) {
+  //     if (session.user) {
+  //       if (session.user.image) {
+  //         setProfileImage(session.user.image);
+  //       }
+  //     }
+  //   }
+  // }, [session]);
 
   if (!cart) setCart([]);
   if (!cart) return null;
@@ -214,7 +230,7 @@ export default function Navbar(props: NavbarProps) {
           <Box sx={{ marginLeft: 3, flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src={profileImage.length > 0 ? profileImage : "https://cdn-icons-png.flaticon.com/512/6522/6522516.png"} />
+                <Avatar alt="Remy Sharp" src={props.profileImage.length > 0 ? props.profileImage : "https://cdn-icons-png.flaticon.com/512/6522/6522516.png"} />
               </IconButton>
             </Tooltip>
             <Menu

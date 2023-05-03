@@ -89,7 +89,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     <ThemeProvider theme={theme}>
       <SessionProvider session={session}>
         <UserContext.Provider value={{ addToCart, cart, setCart, sessionState, serverURI }}>
-          <Navbar showCartModal={showCartModal} setShowCartModal={setShowCartModal} />
+          <Navbar /> 
           <Component {...pageProps} />
         </UserContext.Provider>
       </SessionProvider>
