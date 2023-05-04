@@ -5,6 +5,6 @@ export function prodOrDev() {
     return "http://localhost:3000";
   }
   else if (env == "production") {
-    return "https://ecommerce-rho-wine.vercel.app/";
+    return "https://ecommerce-rho-wine.vercel.app";
   }
 }
