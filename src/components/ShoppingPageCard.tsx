@@ -31,11 +31,6 @@ export default function ShoppingPageCard(props: ShoppingPageProps) {
   const { addToCart, cart } = useContext(UserContext);
   const [stars, setStars] = useState<any>();
   const item = { title: props.title, image_path: props.image_path, id: props.items_uid, price: props.price, rating: props.rating };
-  const router = useRouter();
-
-  function goToItemPage(title: string) {
-    router.push(`/Store/${title}`);
-  }
 
   useEffect(() => {
     const tempArray = [];
@@ -77,7 +72,7 @@ export default function ShoppingPageCard(props: ShoppingPageProps) {
   if (!stars) return null;
   return (
     <Link href={`/Store/${item.title}`}>
-      <Card elevation={3} onClick={() => { goToItemPage(item.title); }} sx={{ maxWidth: 645 }}>
+      <Card elevation={3} sx={{ maxWidth: 645 }}>
         <CardActionArea>
           <CardMedia
             component="img"

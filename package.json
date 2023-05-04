@@ -1,5 +1,7 @@
 {
   "name": "ecommerce",
+  "domain": "ecommerce-rho-wine.vercel.app",
+  "author": "Jacob Yancey",
   "version": "0.1.0",
   "private": true,
   "scripts": {

@@ -3,39 +3,55 @@ import styles from "../../styles/Store.module.css";
 import { v4 as uuid } from "uuid";
 import axios from "axios";
 
+import { useRouter } from "next/router";
+
 import { Container, Grid } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 
 import { prodOrDev } from "../../components/helperFunctions/ProdOrDev";
-
-type cardInterface = {
-  map: any
-  title: string
-  image_path: string
-  id: number
-}
+import { useEffect, useState } from "react";
 
 type cardProps = {
   props: any
   cards: any
   totalPages: number
   items: any
+  serverURI: string
 }
 
-export async function getStaticProps(){
+export async function getStaticProps() {
   const serverURI = prodOrDev() || "";
-  const req = await axios.post(`${serverURI}/api/getStoreCards`, { pageClicked: 0 });
+  const req = await axios.post(`${serverURI}/api/getStoreCards`, { pageClicked: 1 });
   const items = req.data.pageItems;
   const totalPages = req.data.totalPages;
 
 
-  return{
-    props: {items: items, totalPages: totalPages, serverURI: serverURI}
+  return {
+    props: { items: items, totalPages: totalPages, serverURI: serverURI }
   };
 }
 
 export default function Store(props: cardProps) {
-  const cards = (props.items.map((prev: { title: string; image_path: string; items_uid: string, price: number, rating: number }) => {
+  const [items, setItems] = useState(props.items);
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchPage = async () => {
+      const query = router.query;
+      const page = query.page || 1;
+
+      const req = await axios.post(`${props.serverURI}/api/getStoreCards`, { pageClicked: page });
+      setItems(req.data.pageItems);
+    };
+
+    fetchPage();
+  }, [router.isReady, router.query]);
+
+  function changePage(pageNumber: any) {
+    router.push(`/Store?page=${pageNumber.toString()}`);
+  }
+
+  const cards = (items.map((prev: { title: string; image_path: string; items_uid: string, price: number, rating: number }) => {
     return (
       <Grid item key={uuid()} xs={12} md={4} lg={3}>
         <ShoppingPageCard
@@ -51,10 +67,6 @@ export default function Store(props: cardProps) {
   }));
 
 
-
-
-
-
   return (
     <main>
       <Container maxWidth="xl">
@@ -64,7 +76,7 @@ export default function Store(props: cardProps) {
       </Container>
 
       <Container sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <Pagination variant="outlined" color="secondary" sx={{
+        <Pagination onChange={(e, pageNumber) => changePage(pageNumber)} variant="outlined" color="secondary" sx={{
           marginTop: "5%",
           marginBottom: "3%",
 

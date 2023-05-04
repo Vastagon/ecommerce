@@ -8,7 +8,7 @@ type Data = {
 }
 
 async function returnCards(pageClicked: number) {
-  const pageData = await prisma.$queryRaw`SELECT * FROM items LIMIT 20 OFFSET ${pageClicked * 20}`;
+  const pageData = await prisma.$queryRaw`SELECT * FROM items LIMIT 20 OFFSET ${(pageClicked - 1) * 20}`;
 
   let totalItems: any = await prisma.$queryRaw`SELECT COUNT(*) as totalitems FROM items;`;
   ///Normal query returns a bigInt, so I need to do this to get rid of the n at the end and convert it to a number I can use

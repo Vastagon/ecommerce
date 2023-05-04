@@ -75,12 +75,12 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     }
   }
 
-  function prodOrDev(){
+  function prodOrDev() {
     const env = process.env.NODE_ENV;
-    if(env == "development"){
+    if (env == "development") {
       return "http://localhost:3000";
     }
-    else if (env == "production"){
+    else if (env == "production") {
       return "https://ecommerce-rho-wine.vercel.app/";
     }
   }
@@ -89,7 +89,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     <ThemeProvider theme={theme}>
       <SessionProvider session={session}>
         <UserContext.Provider value={{ addToCart, cart, setCart, sessionState, serverURI }}>
-          <Navbar /> 
+          <Navbar />
           <Component {...pageProps} />
         </UserContext.Provider>
       </SessionProvider>

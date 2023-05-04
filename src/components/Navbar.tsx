@@ -20,41 +20,31 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import Badge from "@mui/material/Badge";
+import { uuid } from "uuidv4";
+import Loading from "./Loading";
 
 type NavbarProps = {
   profileImage: string
+  test: string
+  cart: any
+  setCart: any
 }
 
 const pages = ["Store", "Pricing", "Blog"];
 const settings = ["Profile", "Logout"];
 
-export async function getStaticProps(){
-  const { data: session } = useSession();
-  let profileImage;
-
-  if (session) {
-    if (session.user) {
-      if (session.user.image) {
-        profileImage = session.user.image;
-      }
-    }
-  }
-
-  return{
-    props:  {profileImage: profileImage}
-  };
-}
 
 
-export default function Navbar(props: NavbarProps) {
-  // const router = useRouter();
+
+export default function Navbar() {
+  const router = useRouter();
   const { cart, setCart } = useContext(UserContext);
-  // const { data: session } = useSession();
+  const { data: session } = useSession();
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
-  // const [profileImage, setProfileImage] = useState("");
+  const [profileImage, setProfileImage] = useState("");
 
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -83,7 +73,7 @@ export default function Navbar(props: NavbarProps) {
   };
 
   function goToRoute(routePath: string) {
-    // router.push(`/${routePath}`);
+    router.push(`/${routePath}`);
   }
 
   // function openCartContainer() {
@@ -92,16 +82,16 @@ export default function Navbar(props: NavbarProps) {
 
 
 
-  // useEffect(() => {
-  //   ///Gets profile image
-  //   if (session) {
-  //     if (session.user) {
-  //       if (session.user.image) {
-  //         setProfileImage(session.user.image);
-  //       }
-  //     }
-  //   }
-  // }, [session]);
+  useEffect(() => {
+    ///Gets profile image
+    if (session) {
+      if (session.user) {
+        if (session.user.image) {
+          setProfileImage(session.user.image);
+        }
+      }
+    }
+  }, [session]);
 
   if (!cart) setCart([]);
   if (!cart) return null;
@@ -163,9 +153,11 @@ export default function Navbar(props: NavbarProps) {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={() => { handleCloseNavMenu(page); }}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
+                <Link key={uuid()} href={`/${page}`}>
+                  <MenuItem key={page} onClick={() => { handleCloseNavMenu(page); }}>
+                    <Typography textAlign="center">{page}</Typography>
+                  </MenuItem>
+                </Link>
               ))}
             </Menu>
           </Box>
@@ -194,13 +186,15 @@ export default function Navbar(props: NavbarProps) {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={() => { handleCloseNavMenu(page); }}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
+              <Link key={uuid()} href={`/${page}`}>
+                <Button
+                  key={page}
+                  onClick={() => { handleCloseNavMenu(page); }}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  {page}
+                </Button>
+              </Link>
             ))}
           </Box>
 
@@ -230,7 +224,7 @@ export default function Navbar(props: NavbarProps) {
           <Box sx={{ marginLeft: 3, flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src={props.profileImage.length > 0 ? props.profileImage : "https://cdn-icons-png.flaticon.com/512/6522/6522516.png"} />
+                <Avatar alt="Remy Sharp" src={profileImage.length > 0 ? profileImage : "https://cdn-icons-png.flaticon.com/512/6522/6522516.png"} />
               </IconButton>
             </Tooltip>
             <Menu
@@ -261,29 +255,3 @@ export default function Navbar(props: NavbarProps) {
     </AppBar>
   );
 }
-
-
-
-
-
-
-
-
-
-// <div id="navbar" className={styles.navbar}>
-//   <div onClick={goToHome}>
-//     <Image className={styles.nav_icon} alt="Icon" src={MoneyBagImage} />
-//   </div>
-
-//   <div className={styles.nav_tabs_container}>
-//     <p className={styles.nav_tab}><Link href="/Store" className={styles.nav_tab}>Store</Link></p>
-
-//     <div onClick={openCartContainer} className={styles.cart_container}>
-//       <div className={styles.items_in_cart}>{cart.length}</div>
-//       <Image id="cartIcon" className={styles.cart_icon} height={10} width={8} src={ShoppingCart} alt="ads" />
-//       {props.showCartModal ? <CartModal /> : null}
-//     </div>
-
-//     <Image onClick={goToAccount} height={50} width={50} className={styles.profile_icon} src={profileImage} alt="ads" />
-//   </div>
-// </div>

@@ -17,6 +17,7 @@ import Typography from "@mui/material/Typography";
 import Rating from "@mui/material/Rating";
 
 import { prodOrDev } from "../../components/helperFunctions/ProdOrDev";
+import Navbar from "@/components/Navbar";
 
 
 type itemInfo = {
@@ -33,7 +34,7 @@ type itemProps = {
   item: any
 }
 
-export async function getStaticPaths(){
+export async function getStaticPaths() {
   const serverURI = prodOrDev() || "";
 
   const req = await axios.post(`${serverURI}/api/getAllStoreCards`);
@@ -49,12 +50,10 @@ export async function getStaticPaths(){
   return { paths, fallback: false };
 }
 
-export async function getStaticProps(context: any){
+export async function getStaticProps(context: any) {
   const { params } = context;
 
   const serverURI = prodOrDev() || "";
-
-  // const res = await axios.post(`${serverURI}/api/getAllStoreCards`);
 
   const res = await axios.post(`${serverURI}/api/getIndividualItem`, { id: params.itemPage });
   const item = res.data.itemInfo;
@@ -63,24 +62,21 @@ export async function getStaticProps(context: any){
 
 
 
-  return{
-    props: {item: item}
+  return {
+    props: { item: item }
   };
 }
 
 export default function itemPage(props: itemProps) {
   // console.log(props);
-  const { addToCart } = useContext(UserContext);
-  const [quantity, setQuantity] = useState("");
+  // const { addToCart } = useContext(UserContext);
 
-
-  const handleChange = (event: SelectChangeEvent) => {
-    addToCart(props.item.title, event.target.value);
-    // setQuantity(event.target.value);
-  };
+  // const handleChange = (event: SelectChangeEvent) => {
+  //   addToCart(props.item.title, event.target.value);
+  //   // setQuantity(event.target.value);
+  // };
 
   ///I can use category for a tag search system
-  if (!props.item) return <Loading />;
   return (
     <main>
       <Box justifyContent="center" alignItems="center" minHeight="70vh" display="flex">
@@ -98,8 +94,7 @@ export default function itemPage(props: itemProps) {
             <Select
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
-              value={quantity}
-              onChange={handleChange}
+              // onChange={handleChange}
               label="Quantity"
             >
               <MenuItem value={0}>
