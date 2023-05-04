@@ -20,10 +20,19 @@ type cardProps = {
 }
 
 export async function getStaticProps() {
-  const serverURI = prodOrDev() || "";
-  const req = await axios.post(`${serverURI}/api/getStoreCards`, { pageClicked: 1 });
-  const items = req.data.pageItems;
-  const totalPages = req.data.totalPages;
+  // const serverURI = prodOrDev() || "";
+  // const req = await axios.post(`${serverURI}/api/getStoreCards`, { pageClicked: 1 });
+  // const items = req.data.pageItems;
+  // const totalPages = req.data.totalPages;
+
+
+  const pageData = await prisma.$queryRaw`SELECT * FROM items LIMIT 20 OFFSET ${(pageClicked - 1) * 20}`;
+
+  let totalItems: any = await prisma.$queryRaw`SELECT COUNT(*) as totalitems FROM items;`;
+  ///Normal query returns a bigInt, so I need to do this to get rid of the n at the end and convert it to a number I can use
+  totalItems = parseInt(totalItems[0].totalitems.toString());
+
+  const totalPages = Math.floor(totalItems / 20);
 
 
   return {

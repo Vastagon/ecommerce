@@ -32,3 +32,7 @@ https://stock.adobe.com/search?k=half+star+rating&asset_id=316517095
 ## ESLint
 Lint the entire project
 `npm run lint -- --fix`
+
+
+
+Last working build: ecommerce-71wv8d70w-vastagon.vercel.app

@@ -6,6 +6,7 @@ import Image from "next/image";
 import Loading from "@/components/Loading";
 import { UserContext } from "../../components/UserContext";
 import { useContext } from "react";
+import prisma from "../../components/prisma";
 
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -35,16 +36,17 @@ type itemProps = {
 }
 
 export async function getStaticPaths() {
-  const serverURI = prodOrDev() || "";
+  // const serverURI = prodOrDev() || "";
 
-  const req = await axios.post(`${serverURI}/api/getAllStoreCards`);
+  // const req = await axios.post(`${serverURI}/api/getAllStoreCards`);
   // const allItems = req.data.allItems;
-  const allItems = req.data.allItems;
+
+  const allItems: any = await prisma.$queryRaw`SELECT title FROM items;`;
+
 
   const paths = allItems.map((item: any) => ({
     params: { itemPage: item.title },
   }));
-
 
 
   return { paths, fallback: false };
@@ -53,13 +55,14 @@ export async function getStaticPaths() {
 export async function getStaticProps(context: any) {
   const { params } = context;
 
-  const serverURI = prodOrDev() || "";
+  async function wasInServer(){
+    const result: any = await prisma.$queryRaw`SELECT * FROM items WHERE title = ${params.itemPage}`;
+    const resultDestructured = result[0];
+    
+    return JSON.parse(JSON.stringify(resultDestructured));  
+  }
 
-  const res = await axios.post(`${serverURI}/api/getIndividualItem`, { id: params.itemPage });
-  const item = res.data.itemInfo;
-
-
-
+  const item = await wasInServer();
 
 
   return {
@@ -75,6 +78,18 @@ export default function itemPage(props: itemProps) {
   //   addToCart(props.item.title, event.target.value);
   //   // setQuantity(event.target.value);
   // };
+
+
+  // useEffect(() =>{
+  //   async function t(){
+  //     const serverURI = prodOrDev() || "";
+  //     const res = await axios.post(`${serverURI}/api/getIndividualItem`, { id: "Tea - English Breakfast" });
+  //     const item = res.data.itemInfo;
+  //     console.log(item);
+  //   }
+
+  //   t();
+  // }, []);
 
   ///I can use category for a tag search system
   return (
