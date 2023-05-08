@@ -2,6 +2,7 @@ import ShoppingPageCard from "@/components/ShoppingPageCard";
 import styles from "../../styles/Store.module.css";
 import { v4 as uuid } from "uuid";
 import axios from "axios";
+import prisma from "@/components/prisma";
 
 import { useRouter } from "next/router";
 
@@ -20,13 +21,14 @@ type cardProps = {
 }
 
 export async function getStaticProps() {
-  // const serverURI = prodOrDev() || "";
+  const serverURI = prodOrDev() || "";
   // const req = await axios.post(`${serverURI}/api/getStoreCards`, { pageClicked: 1 });
   // const items = req.data.pageItems;
   // const totalPages = req.data.totalPages;
 
 
-  const pageData = await prisma.$queryRaw`SELECT * FROM items LIMIT 20 OFFSET ${(pageClicked - 1) * 20}`;
+  const pageData = await prisma.$queryRaw`SELECT title, image_path, price, rating FROM items LIMIT 20 OFFSET 20`;
+  console.log(pageData);
 
   let totalItems: any = await prisma.$queryRaw`SELECT COUNT(*) as totalitems FROM items;`;
   ///Normal query returns a bigInt, so I need to do this to get rid of the n at the end and convert it to a number I can use
@@ -36,7 +38,7 @@ export async function getStaticProps() {
 
 
   return {
-    props: { items: items, totalPages: totalPages, serverURI: serverURI }
+    props: { items: pageData, totalPages: totalPages, serverURI: serverURI }
   };
 }
 
