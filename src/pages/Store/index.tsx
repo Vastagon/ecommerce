@@ -28,7 +28,6 @@ export async function getStaticProps() {
 
 
   const pageData = await prisma.$queryRaw`SELECT title, image_path, price, rating FROM items LIMIT 20 OFFSET 20`;
-  console.log(pageData);
 
   let totalItems: any = await prisma.$queryRaw`SELECT COUNT(*) as totalitems FROM items;`;
   ///Normal query returns a bigInt, so I need to do this to get rid of the n at the end and convert it to a number I can use
