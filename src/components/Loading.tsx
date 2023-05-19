@@ -3,9 +3,9 @@
 export default function Loading(){
     
 
-  return(
-    <div>
+    return(
+        <div>
             Loading
-    </div>
-  );
+        </div>
+    );
 }

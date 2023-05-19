@@ -20,6 +20,9 @@ import Rating from "@mui/material/Rating";
 import { prodOrDev } from "../../components/helperFunctions/ProdOrDev";
 import Navbar from "@/components/Navbar";
 
+import { decodeOptions } from "../../../utils/middleUtils";
+
+
 
 type itemInfo = {
   category: string
@@ -54,30 +57,41 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context: any) {
   const { params } = context;
+  console.log(params);
 
-  async function wasInServer(){
-    const result: any = await prisma.$queryRaw`SELECT * FROM items WHERE title = ${params.itemPage}`;
+  async function wasInServer() {
+    const result: any = await prisma.$queryRaw`SELECT items_uid, title, image_path, item_description, rating, price FROM items WHERE title = ${params.itemPage}`;
     const resultDestructured = result[0];
-    
-    return JSON.parse(JSON.stringify(resultDestructured));  
+
+    // console.log(resultDestructured);
+
+    return resultDestructured;
+    // return JSON.parse(JSON.stringify(resultDestructured));
   }
 
   const item = await wasInServer();
 
+  const options = decodeOptions(params.itemPage);
 
   return {
-    props: { item: item }
+    props: {
+      options,
+    }
   };
+
+  // return {
+  //   props: { item: item }
+  // };
 }
 
 export default function itemPage(props: itemProps) {
   // console.log(props);
-  // const { addToCart } = useContext(UserContext);
+  const { addToCart } = useContext(UserContext);
 
-  // const handleChange = (event: SelectChangeEvent) => {
-  //   addToCart(props.item.title, event.target.value);
-  //   // setQuantity(event.target.value);
-  // };
+  const handleChange = (event: SelectChangeEvent) => {
+    addToCart(props.item.title, event.target.value);
+    // setQuantity(event.target.value);
+  };
 
 
   // useEffect(() =>{
@@ -88,7 +102,7 @@ export default function itemPage(props: itemProps) {
   //     console.log(item);
   //   }
 
-  //   t();
+
   // }, []);
 
   ///I can use category for a tag search system
@@ -109,7 +123,7 @@ export default function itemPage(props: itemProps) {
             <Select
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
-              // onChange={handleChange}
+              onChange={handleChange}
               label="Quantity"
             >
               <MenuItem value={0}>

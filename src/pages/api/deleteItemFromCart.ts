@@ -7,15 +7,15 @@ type Data = {
 }
 
 async function deleteItem(item: string, email: string){
-  ///
+    ///
 }
 
 export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
+    req: NextApiRequest,
+    res: NextApiResponse<Data>
 ) {
-  const data = req.body;
-  ///Correct string being received  
-  const response = await deleteItem(data.title, data.email);
-  res.status(200).json({ updatedCart: response });
+    const data = req.body;
+    ///Correct string being received  
+    const response = await deleteItem(data.title, data.email);
+    res.status(200).json({ updatedCart: response });
 }

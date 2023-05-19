@@ -7,15 +7,15 @@ type Data = {
 }
 
 async function returnCards() {
-  const allItems: any = await prisma.$queryRaw`SELECT title FROM items;`;
+    const allItems: any = await prisma.$queryRaw`SELECT title FROM items;`;
 
-  return { allItems };
+    return { allItems };
 }
 
 export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
+    req: NextApiRequest,
+    res: NextApiResponse<Data>
 ) {
-  const response = await returnCards();
-  res.status(200).json({ allItems: response.allItems });
+    const response = await returnCards();
+    res.status(200).json({ allItems: response.allItems });
 }

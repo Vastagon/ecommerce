@@ -11,6 +11,7 @@ import Pagination from "@mui/material/Pagination";
 
 import { prodOrDev } from "../../components/helperFunctions/ProdOrDev";
 import { useEffect, useState } from "react";
+import Loading from "@/components/Loading";
 
 type cardProps = {
   props: any
@@ -27,13 +28,20 @@ export async function getStaticProps() {
   // const totalPages = req.data.totalPages;
 
 
-  const pageData = await prisma.$queryRaw`SELECT title, image_path, price, rating FROM items LIMIT 20 OFFSET 20`;
+
+
+  const pageData = await prisma.$queryRaw`SELECT title, image_path, price, rating FROM items LIMIT 20`;
 
   let totalItems: any = await prisma.$queryRaw`SELECT COUNT(*) as totalitems FROM items;`;
   ///Normal query returns a bigInt, so I need to do this to get rid of the n at the end and convert it to a number I can use
   totalItems = parseInt(totalItems[0].totalitems.toString());
 
   const totalPages = Math.floor(totalItems / 20);
+
+
+  for (let i = 0; i < totalPages; i++) {
+    ///
+  }
 
 
   return {
@@ -45,17 +53,17 @@ export default function Store(props: cardProps) {
   const [items, setItems] = useState(props.items);
   const router = useRouter();
 
-  useEffect(() => {
-    const fetchPage = async () => {
-      const query = router.query;
-      const page = query.page || 1;
+  // useEffect(() => {
+  //   const fetchPage = async () => {
+  //     const query = router.query;
+  //     const page = query.page || 1;
 
-      const req = await axios.post(`${props.serverURI}/api/getStoreCards`, { pageClicked: page });
-      setItems(req.data.pageItems);
-    };
+  //     const req = await axios.post(`${props.serverURI}/api/getStoreCards`, { pageClicked: page });
+  //     setItems(req.data.pageItems);
+  //   };
 
-    fetchPage();
-  }, [router.isReady, router.query]);
+  //   fetchPage();
+  // }, [router.isReady, router.query]);
 
   function changePage(pageNumber: any) {
     router.push(`/Store?page=${pageNumber.toString()}`);
@@ -76,6 +84,8 @@ export default function Store(props: cardProps) {
     );
   }));
 
+  console.log(items);
+  // if (items) return <Loading />;
 
   return (
     <main>
