@@ -3,8 +3,8 @@ import prisma from "../../components/prisma";
 
 
 type Data = {
-  pageItems: any
-  totalPages: number
+    pageItems: any
+    totalPages: number
 }
 
 async function returnCards(pageClicked: number) {

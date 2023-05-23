@@ -13,14 +13,9 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Rating from "@mui/material/Rating";
 
-import { prodOrDev } from "../../components/helperFunctions/ProdOrDev";
-import Navbar from "@/components/Navbar";
-
-import { decodeOptions } from "../../../utils/middleUtils";
 
 
 
@@ -57,13 +52,11 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context: any) {
   const { params } = context;
-  console.log(params);
 
   async function wasInServer() {
     const result: any = await prisma.$queryRaw`SELECT items_uid, title, image_path, item_description, rating, price FROM items WHERE title = ${params.itemPage}`;
     const resultDestructured = result[0];
 
-    // console.log(resultDestructured);
 
     return resultDestructured;
     // return JSON.parse(JSON.stringify(resultDestructured));
@@ -71,21 +64,13 @@ export async function getStaticProps(context: any) {
 
   const item = await wasInServer();
 
-  const options = decodeOptions(params.itemPage);
 
   return {
-    props: {
-      options,
-    }
+    props: { item: item }
   };
-
-  // return {
-  //   props: { item: item }
-  // };
 }
 
 export default function itemPage(props: itemProps) {
-  // console.log(props);
   const { addToCart } = useContext(UserContext);
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -99,19 +84,16 @@ export default function itemPage(props: itemProps) {
   //     const serverURI = prodOrDev() || "";
   //     const res = await axios.post(`${serverURI}/api/getIndividualItem`, { id: "Tea - English Breakfast" });
   //     const item = res.data.itemInfo;
-  //     console.log(item);
   //   }
-
-
   // }, []);
 
   ///I can use category for a tag search system
   return (
     <main>
-      <Box justifyContent="center" alignItems="center" minHeight="70vh" display="flex">
+      <Box sx={{ color: "white" }} justifyContent="center" alignItems="center" minHeight="70vh" display="flex">
         <Image width={100} height={10} src={props.item.image_path} className={styles.item_image} alt="ads" />
 
-        <Box paddingLeft={5} paddingRight={5} paddingTop={2} sx={{ backgroundColor: "blue", width: "40%", height: "30vw" }}>
+        <Box paddingLeft={5} paddingRight={5} paddingTop={2} sx={{ width: "40%", height: "30vw" }}>
           <Typography borderBottom={2} borderColor="red" variant="h3">{props.item.title}</Typography>
 
           <Rating sx={{ marginTop: 1 }} size="small" name="read-only" value={props.item.rating} readOnly />

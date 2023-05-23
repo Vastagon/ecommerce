@@ -84,7 +84,7 @@ export default function Store(props: cardProps) {
     );
   }));
 
-  console.log(items);
+
   // if (items) return <Loading />;
 
   return (
