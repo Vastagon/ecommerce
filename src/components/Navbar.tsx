@@ -24,14 +24,13 @@ import { uuid } from "uuidv4";
 import Loading from "./Loading";
 
 type NavbarProps = {
-  profileImage: string
-  test: string
-  cart: any
-  setCart: any
+    profileImage: string
+    test: string
+    cart: any
+    setCart: any
 }
 
 const pages = ["Store", "Pricing", "Blog"];
-const settings = ["Profile", "Logout"];
 
 
 
@@ -41,10 +40,12 @@ export default function Navbar() {
     const { cart, setCart } = useContext(UserContext);
     const { data: session } = useSession();
 
+
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
     const [profileImage, setProfileImage] = useState("");
+    const [settings, setSettings] = useState(["", ""])
 
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -83,13 +84,16 @@ export default function Navbar() {
 
 
     useEffect(() => {
-    ///Gets profile image
+        ///Gets profile image
         if (session) {
+            setSettings(["Profile", "Logout"]);
             if (session.user) {
                 if (session.user.image) {
                     setProfileImage(session.user.image);
                 }
             }
+        } else {
+            setSettings(["Profile", "Login"]);
         }
     }, [session]);
 
@@ -120,7 +124,7 @@ export default function Navbar() {
                             }
                         }}
                     >
-            E-Commerce
+                        E-Commerce
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -182,7 +186,7 @@ export default function Navbar() {
                             }
                         }}
                     >
-            E-Commerce
+                        E-Commerce
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                         {pages.map((page) => (
