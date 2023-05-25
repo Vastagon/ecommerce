@@ -101,7 +101,7 @@ export default function itemPage(props: itemProps) {
           <Typography>${props.item.price}</Typography>
           <Typography>{props.item.item_description}</Typography>
 
-          <QuantityChange title={props.item.title} />
+          <QuantityChange quantity={props.item.quantity} title={props.item.title} />
         </Box>
       </Box>
     </main>

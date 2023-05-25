@@ -43,6 +43,7 @@ export default function Cart() {
     useEffect(() => {
         if (cart) {
             setCartItemsDisplay(cart.map((prev: any) => {
+                console.log(prev)
                 return (
                     <>
                     <Paper
@@ -89,7 +90,7 @@ export default function Cart() {
                         </Grid>
                     </Paper>
 
-                    <QuantityChange title={prev.title} />
+                    <QuantityChange title={prev.title} quantity={prev.quantity} />
                     </>
                 );
             }));

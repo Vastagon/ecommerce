@@ -5,7 +5,8 @@ import { useContext, useState } from "react";
 import { UserContext } from "./UserContext";
 
 type quantityChangeProps = {
-    title: string
+  title: string
+  quantity: number
 }
 
 export default function QuantityChange(props: quantityChangeProps){
@@ -15,18 +16,20 @@ export default function QuantityChange(props: quantityChangeProps){
     const handleChange = (event: SelectChangeEvent) => {
         addToCart(props.title, event.target.value);
         // setQuantity(event.target.value);
-      };
+    };
+
+    console.log(props.quantity)
 
     return(
         <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="demo-simple-select-standard-label">Quantity</InputLabel>
+            <InputLabel id="demo-simple-select-standard-label">{props.quantity}</InputLabel>
             <Select
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
               onChange={handleChange}
               label="Quantity"
             >
-              <MenuItem value={0}>
+              <MenuItem value={props.quantity}>
                 <em>None</em>
               </MenuItem>
               <MenuItem value={1}>1</MenuItem>
