@@ -17,7 +17,7 @@ async function getCart(data: any) {
         const cart_id_query: any = await prisma.$queryRaw`SELECT cart_uid FROM cart WHERE user_id = ${user_id}::UUID`;
         const cart_id = cart_id_query[0].cart_uid;
 
-        const cart = await prisma.$queryRaw`SELECT items_uid, title, image_path, quantity FROM items JOIN cartitems ON items.items_uid = item_id WHERE cart_id = ${cart_id}::UUID;`;
+        const cart = await prisma.$queryRaw`SELECT items_uid, title, image_path, quantity, price FROM items JOIN cartitems ON items.items_uid = item_id WHERE cart_id = ${cart_id}::UUID;`;
 
         return cart;
     } else {

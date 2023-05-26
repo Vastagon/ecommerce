@@ -50,10 +50,11 @@ export default function Cart() {
                         sx={{
                             p: 2,
                             margin: 'auto',
-                            maxWidth: 500,
                             flexGrow: 1,
+                            width: 1000,
                             backgroundColor: (theme) =>
                             theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+                            marginTop: "3%"
                         }}
                         >
                         <Grid container spacing={2}>
@@ -62,35 +63,38 @@ export default function Cart() {
                                 <Img alt="complex" src={prev.image_path} />
                             </ButtonBase>
                             </Grid>
-                            <Grid item xs={12} sm container>
-                            <Grid item xs container direction="column" spacing={2}>
-                                <Grid item xs>
-                                <Typography gutterBottom variant="subtitle1" component="div">
-                                    {prev.title}
-                                </Typography>
-                                <Typography variant="body2" gutterBottom>
-                                    Full resolution 1920x1080 • JPEG
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary">
-                                    ID: 1030114
-                                </Typography>
+                                <Grid item xs={12} sm container>
+                                <Grid item xs container direction="column" spacing={2}>
+                                    <Grid item xs>
+                                    <Typography gutterBottom variant="subtitle1" component="div">
+                                        {prev.title}
+                                    </Typography>
+                                    <Typography variant="body2" gutterBottom>
+                                        Full resolution 1920x1080 • JPEG
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        ID: 1030114
+                                    </Typography>
+                                    </Grid>
+                                    {/* <Grid item>
+                                    <Typography sx={{ cursor: 'pointer' }} variant="body2">
+                                        Remove
+                                    </Typography>
+                                    </Grid> */}
                                 </Grid>
                                 <Grid item>
-                                <Typography sx={{ cursor: 'pointer' }} variant="body2">
-                                    Remove
-                                </Typography>
+                                    <Typography sx={{textAlign: "right"}} variant="subtitle1" component="div">
+                                    ${prev.price}
+                                    </Typography>
+
+                                    <div style={{marginTop: "40%"}}>
+                                        <QuantityChange title={prev.title} quantity={prev.quantity} />
+                                    </div>                                    
                                 </Grid>
                             </Grid>
-                            <Grid item>
-                                <Typography variant="subtitle1" component="div">
-                                $19.00
-                                </Typography>
-                            </Grid>
-                            </Grid>
+
                         </Grid>
                     </Paper>
-
-                    <QuantityChange title={prev.title} quantity={prev.quantity} />
                     </>
                 );
             }));

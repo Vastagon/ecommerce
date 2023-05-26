@@ -18,10 +18,9 @@ export default function QuantityChange(props: quantityChangeProps){
         // setQuantity(event.target.value);
     };
 
-    console.log(props.quantity)
 
     return(
-        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+        <FormControl variant="standard" sx={{m: 1, minWidth: 120 }}>
             <InputLabel id="demo-simple-select-standard-label">{props.quantity}</InputLabel>
             <Select
               labelId="demo-simple-select-standard-label"

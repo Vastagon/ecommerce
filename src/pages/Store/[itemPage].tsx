@@ -72,13 +72,18 @@ export async function getStaticProps(context: any) {
 }
 
 export default function itemPage(props: itemProps) {
-  const { addToCart } = useContext(UserContext);
+  const { cart } = useContext(UserContext);
+  const [quantity, setQuantity] = useState<number>(0)
 
-  const handleChange = (event: SelectChangeEvent) => {
-    addToCart(props.item.title, event.target.value);
-    // setQuantity(event.target.value);
-  };
-
+  useEffect(() =>{
+    if(cart){
+      for(let i = 0; i < cart.length; i++){
+        if(cart[i].title === props.item.title){
+          setQuantity(cart[i].quantity)
+        }
+      }
+    }
+  }, [cart])
 
   // useEffect(() =>{
   //   async function t(){
@@ -101,7 +106,7 @@ export default function itemPage(props: itemProps) {
           <Typography>${props.item.price}</Typography>
           <Typography>{props.item.item_description}</Typography>
 
-          <QuantityChange quantity={props.item.quantity} title={props.item.title} />
+          <QuantityChange quantity={quantity} title={props.item.title} />
         </Box>
       </Box>
     </main>

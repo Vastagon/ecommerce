@@ -28,7 +28,7 @@ export async function getStaticProps() {
   // const totalPages = req.data.totalPages;
 
 
-
+let num: number = 3;
 
   const pageData = await prisma.$queryRaw`SELECT title, image_path, price, rating FROM items LIMIT 20`;
 
