@@ -1,27 +1,8 @@
-import styles from "../styles/Navbar.module.css";
-import Link from "next/link";
 import { useState, useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useSession, signOut } from "next-auth/react";
 import { UserContext } from "./UserContext";
 
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
-import Badge from "@mui/material/Badge";
-import { uuid } from "uuidv4";
-import Loading from "./Loading";
 
 type NavbarProps = {
     profileImage: string
@@ -30,7 +11,6 @@ type NavbarProps = {
     setCart: any
 }
 
-const pages = ["Store", "Pricing", "Blog"];
 
 
 
@@ -41,37 +21,9 @@ export default function Navbar() {
     const { data: session } = useSession();
 
 
-    const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
-    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
     const [profileImage, setProfileImage] = useState("");
-    const [settings, setSettings] = useState(["", ""])
 
-
-    const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorElNav(event.currentTarget);
-    };
-    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorElUser(event.currentTarget);
-    };
-
-    ///Handles going to other pages as well
-    const handleCloseNavMenu = (pageName: string) => {
-        setAnchorElNav(null);
-        goToRoute(pageName);
-    };
-
-    const handleCloseUserMenu = (setting: string) => {
-        setAnchorElUser(null);
-        console.log(setting);
-        if (setting === "Profile") {
-            goToRoute(setting);
-        }
-
-        if (setting === "Logout") {
-            signOut();
-        }
-    };
 
     function goToRoute(routePath: string) {
         router.push(`/${routePath}`);
@@ -86,14 +38,11 @@ export default function Navbar() {
     useEffect(() => {
         ///Gets profile image
         if (session) {
-            setSettings(["Profile", "Logout"]);
             if (session.user) {
                 if (session.user.image) {
                     setProfileImage(session.user.image);
                 }
             }
-        } else {
-            setSettings(["Profile", "Login"]);
         }
     }, [session]);
 
@@ -101,7 +50,58 @@ export default function Navbar() {
     if (!cart) return null;
 
     return (
-        <AppBar style={{ backgroundColor: "#19376D" }} position="static">
+        <div className="navbar bg-base-100">
+            <div className="flex-1">
+                <a href="/" className="btn btn-ghost normal-case text-xl">Ecommerce</a>
+            </div>
+            <div className="flex-none">
+                <a href="/Store" className="btn btn-ghost normal-case text-xl">Store</a>
+            </div>
+            <div className="flex-none">
+                <div className="dropdown dropdown-end">
+                    <label tabIndex={0} className="btn btn-ghost btn-circle">
+                        <div className="indicator">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                            <span className="badge badge-sm indicator-item">{cart.length}</span>
+                        </div>
+                    </label>
+                    <div tabIndex={0} className="mt-3 card card-compact dropdown-content w-52 bg-base-100 shadow">
+                        <div className="card-body">
+                            <span className="font-bold text-lg">{cart.length} Items</span>
+                            <span className="text-info">Subtotal: $999</span>
+                            <div className="card-actions">
+                                <a href="/Cart"><button className="btn btn-primary btn-block">View cart</button></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="dropdown dropdown-end">
+                    <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                        <div className="w-10 rounded-full">
+                            <img src={profileImage} />
+                        </div>
+                    </label>
+                    <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
+                        <li>
+                            <a className="justify-between">
+                                Profile
+                                <span className="badge">New</span>
+                            </a>
+                        </li>
+                        <li><a>Settings</a></li>
+                        <li><a>Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+
+
+
+
+{/* <AppBar style={{ backgroundColor: "#19376D" }} position="static">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
@@ -203,59 +203,95 @@ export default function Navbar() {
                     </Box>
 
                     {/* style={{ backgroundColor: "#576CBC" }} */}
-                    <Badge
-                        onClick={() => { goToRoute("Cart"); }}
-                        sx={{
-                            "& .MuiBadge-badge": {
-                                color: "#A5D7E8",
-                                backgroundColor: "#576CBC"
-                            },
-                            "&:hover": {
-                                cursor: "pointer",
-                                borderRadius: 1,
-                                borderColor: "red",
-                                borderStyle: "solid",
-                                borderWidth: 1,
-                                width: 25
-                            }
-                        }}
-                        badgeContent={cart.length}
-                        color="error">
-                        <ShoppingCartIcon color='action' />
-                    </Badge>
+        //             <Badge
+        //                 onClick={() => { goToRoute("Cart"); }}
+        //                 sx={{
+        //                     "& .MuiBadge-badge": {
+        //                         color: "#A5D7E8",
+        //                         backgroundColor: "#576CBC"
+        //                     },
+        //                     "&:hover": {
+        //                         cursor: "pointer",
+        //                         borderRadius: 1,
+        //                         borderColor: "red",
+        //                         borderStyle: "solid",
+        //                         borderWidth: 1,
+        //                         width: 25
+        //                     }
+        //                 }}
+        //                 badgeContent={cart.length}
+        //                 color="error">
+        //                 <ShoppingCartIcon color='action' />
+        //             </Badge>
 
 
-                    <Box sx={{ marginLeft: 3, flexGrow: 0 }}>
-                        <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src={profileImage.length > 0 ? profileImage : "https://cdn-icons-png.flaticon.com/512/6522/6522516.png"} />
-                            </IconButton>
-                        </Tooltip>
-                        <Menu
-                            sx={{ mt: "45px" }}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: "top",
-                                horizontal: "right",
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: "top",
-                                horizontal: "right",
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
-                        >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={() => { handleCloseUserMenu(setting); }}>
-                                    <Typography textAlign="center">{setting}</Typography>
-                                </MenuItem>
-                            ))}
-                        </Menu>
-                    </Box>
-                </Toolbar>
-            </Container>
-        </AppBar>
-    );
-}
+        //             <Box sx={{ marginLeft: 3, flexGrow: 0 }}>
+        //                 <Tooltip title="Open settings">
+        //                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+        //                         <Avatar alt="Remy Sharp" src={profileImage.length > 0 ? profileImage : "https://cdn-icons-png.flaticon.com/512/6522/6522516.png"} />
+        //                     </IconButton>
+        //                 </Tooltip>
+        //                 <Menu
+        //                     sx={{ mt: "45px" }}
+        //                     id="menu-appbar"
+        //                     anchorEl={anchorElUser}
+        //                     anchorOrigin={{
+        //                         vertical: "top",
+        //                         horizontal: "right",
+        //                     }}
+        //                     keepMounted
+        //                     transformOrigin={{
+        //                         vertical: "top",
+        //                         horizontal: "right",
+        //                     }}
+        //                     open={Boolean(anchorElUser)}
+        //                     onClose={handleCloseUserMenu}
+        //                 >
+        //                     {settings.map((setting) => (
+        //                         <MenuItem key={setting} onClick={() => { handleCloseUserMenu(setting); }}>
+        //                             <Typography textAlign="center">{setting}</Typography>
+        //                         </MenuItem>
+        //                     ))}
+        //                 </Menu>
+        //             </Box>
+        //         </Toolbar>
+        //     </Container>
+        // </AppBar> */}
+
+
+
+
+
+
+
+        // const [settings, setSettings] = useState(["", ""])
+
+
+        // const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+        //     setAnchorElNav(event.currentTarget);
+        // };
+        // const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+        //     setAnchorElUser(event.currentTarget);
+        // };
+    
+        // ///Handles going to other pages as well
+        // const handleCloseNavMenu = (pageName: string) => {
+        //     setAnchorElNav(null);
+        //     goToRoute(pageName);
+        // };
+    
+        // const handleCloseUserMenu = (setting: string) => {
+        //     setAnchorElUser(null);
+        //     console.log(setting);
+        //     if (setting === "Profile") {
+        //         goToRoute(setting);
+        //     }
+    
+        //     if (setting === "Logout") {
+        //         signOut();
+        //     }
+        // };
+
+
+            // const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+    // const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);

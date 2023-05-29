@@ -1,5 +1,4 @@
 import { useRouter } from "next/router";
-import styles from "../../styles/itemPage.module.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Image from "next/image";
@@ -75,10 +74,10 @@ export default function itemPage(props: itemProps) {
   const { cart } = useContext(UserContext);
   const [quantity, setQuantity] = useState<number>(0)
 
-  useEffect(() =>{
-    if(cart){
-      for(let i = 0; i < cart.length; i++){
-        if(cart[i].title === props.item.title){
+  useEffect(() => {
+    if (cart) {
+      for (let i = 0; i < cart.length; i++) {
+        if (cart[i].title === props.item.title) {
           setQuantity(cart[i].quantity)
         }
       }
@@ -97,7 +96,7 @@ export default function itemPage(props: itemProps) {
   return (
     <main>
       <Box sx={{ color: "white" }} justifyContent="center" alignItems="center" minHeight="70vh" display="flex">
-        <Image width={100} height={10} src={props.item.image_path} className={styles.item_image} alt="ads" />
+        <Image width={100} height={10} src={props.item.image_path} alt="ads" />
 
         <Box paddingLeft={5} paddingRight={5} paddingTop={2} sx={{ width: "40%", height: "30vw" }}>
           <Typography borderBottom={2} borderColor="red" variant="h3">{props.item.title}</Typography>

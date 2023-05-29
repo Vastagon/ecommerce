@@ -1,5 +1,4 @@
 import Image from "next/image";
-import styles from "../styles/Store.module.css";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "./UserContext";
@@ -19,11 +18,11 @@ import Box from "@mui/material/Box";
 
 
 type ShoppingPageProps = {
-  title: string
-  image_path: string
-  items_uid: string
-  price: number
-  rating: number
+    title: string
+    image_path: string
+    items_uid: string
+    price: number
+    rating: number
 }
 
 
@@ -61,7 +60,7 @@ export default function ShoppingPageCard(props: ShoppingPageProps) {
 
             if (selectedImage)
                 return (
-                    <Image key={uuid()} className={styles.stars} width={10} height={10} alt="Item Image" src={selectedImage} />
+                    <Image key={uuid()} width={10} height={10} alt="Item Image" src={selectedImage} />
                 );
         }));
 

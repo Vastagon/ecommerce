@@ -1,5 +1,4 @@
 import ShoppingPageCard from "@/components/ShoppingPageCard";
-import styles from "../../styles/Store.module.css";
 import { v4 as uuid } from "uuid";
 import axios from "axios";
 import prisma from "@/components/prisma";
@@ -28,7 +27,7 @@ export async function getStaticProps() {
   // const totalPages = req.data.totalPages;
 
 
-let num: number = 3;
+  let num: number = 3;
 
   const pageData = await prisma.$queryRaw`SELECT title, image_path, price, rating FROM items LIMIT 20`;
 
