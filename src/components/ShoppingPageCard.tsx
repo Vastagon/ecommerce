@@ -31,6 +31,7 @@ export default function ShoppingPageCard(props: ShoppingPageProps) {
     const [stars, setStars] = useState<any>();
     const item = { title: props.title, image_path: props.image_path, id: props.items_uid, price: props.price, rating: props.rating };
 
+
     useEffect(() => {
         const tempArray = [];
         ///This is 3
@@ -66,37 +67,53 @@ export default function ShoppingPageCard(props: ShoppingPageProps) {
 
 
     }, []);
-
+    console.log(props)
 
     if (!stars) return null;
     return (
-        <Link href={`/Store/${item.title}`}>
-            <Card elevation={3} sx={{ maxWidth: 645 }}>
-                <CardActionArea>
-                    <CardMedia
-                        component="img"
-                        height="140"
-                        image={props.image_path}
-                        alt="green iguana"
-                    />
-
-                    <CardContent>
-                        <Typography component="div">
-                            {props.title}
-                        </Typography>
-
-                        <Typography sx={{ marginTop: 1 }} gutterBottom><b>${props.price}</b></Typography>
-
-                        <Box sx={{ display: "flex" }}>
-                            <Rating size="small" name="read-only" value={props.rating} readOnly />
-                            <Typography color="text.secondary" fontSize={12} sx={{ marginLeft: .7, marginBottom: .2, marginTop: "auto", lineHeight: 1 }}>2</Typography>
-                        </Box>
-                    </CardContent>
-                </CardActionArea>
-            </Card>
-        </Link>
+        <div className="card card-bordered">
+            <figure>
+                <Image width="100" height="100" alt={props.title} src={props.image_path} />
+            </figure>
+            <div className="card-body">
+                <h2 className="card-title">{props.title}
+                    <div className="badge mx-2 badge-secondary">NEW</div>
+                </h2>
+                <p>Rerum reiciendis beatae tenetur excepturi aut pariatur est eos. Sit sit necessitatibus veritatis sed molestiae voluptates incidunt iure sapiente.</p>
+                <div className="justify-end card-actions">
+                    <a href={`/Store/${props.title}`}><button className="btn btn-secondary">More info</button></a>
+                </div>
+            </div>
+        </div>
     );
 }
 
 // &#11088;
 
+
+
+// <Link href={`/Store/${item.title}`}>
+// <Card elevation={3} sx={{ maxWidth: 645 }}>
+//     <CardActionArea>
+//         <CardMedia
+//             component="img"
+//             height="140"
+//             image={props.image_path}
+//             alt="green iguana"
+//         />
+
+//         <CardContent>
+//             <Typography component="div">
+//                 {props.title}
+//             </Typography>
+
+//             <Typography sx={{ marginTop: 1 }} gutterBottom><b>${props.price}</b></Typography>
+
+//             <Box sx={{ display: "flex" }}>
+//                 <Rating size="small" name="read-only" value={props.rating} readOnly />
+//                 <Typography color="text.secondary" fontSize={12} sx={{ marginLeft: .7, marginBottom: .2, marginTop: "auto", lineHeight: 1 }}>2</Typography>
+//             </Box>
+//         </CardContent>
+//     </CardActionArea>
+// </Card>
+// </Link>

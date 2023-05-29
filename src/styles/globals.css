@@ -9,7 +9,7 @@
 @import '@fontsource/roboto/700.css';
 
 :root {
-  --max-width: 1100px;
+  /* --max-width: 1100px;
   --border-radius: 12px;
   --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
     'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
@@ -45,10 +45,10 @@
 
   font-family: 'Bellefair';
   background-color: #0B2447;
-  color: white;
+  color: white; */
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
@@ -97,7 +97,7 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb)); */
-  font-family: 'Open Sans', sans-serif;
+/* font-family: 'Open Sans', sans-serif;
 }
 
 a {
@@ -119,8 +119,8 @@ main {
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
-  }
-}
+  } 
+}*/
 
 
 /* Scrollbar */

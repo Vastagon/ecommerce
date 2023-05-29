@@ -70,16 +70,14 @@ export default function Store(props: cardProps) {
 
   const cards = (items.map((prev: { title: string; image_path: string; items_uid: string, price: number, rating: number }) => {
     return (
-      <Grid item key={uuid()} xs={12} md={4} lg={3}>
-        <ShoppingPageCard
-          key={uuid()}
-          items_uid={prev.items_uid}
-          title={prev.title}
-          image_path={prev.image_path}
-          price={prev.price}
-          rating={prev.rating}
-        />
-      </Grid>
+      <ShoppingPageCard
+        key={uuid()}
+        items_uid={prev.items_uid}
+        title={prev.title}
+        image_path={prev.image_path}
+        price={prev.price}
+        rating={prev.rating}
+      />
     );
   }));
 
@@ -87,24 +85,50 @@ export default function Store(props: cardProps) {
   // if (items) return <Loading />;
 
   return (
-    <main>
-      <Container maxWidth="xl">
-        <Grid container columnSpacing={8} rowSpacing={4}>
-          {cards}
-        </Grid>
-      </Container>
-
-      <Container sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <Pagination onChange={(e, pageNumber) => changePage(pageNumber)} variant="outlined" color="secondary" sx={{
-          marginTop: "5%",
-          marginBottom: "3%",
-
-          "& .MuiPaginationItem-root": {
-            color: "primary.contrastText"
-          }
-        }} count={props.totalPages} />
-      </Container>
-
+    <main className="grid grid-cols-4 gap-4 mt-12">
+      {cards}
     </main>
   );
 }
+
+
+
+
+
+
+{/* <Container maxWidth="xl">
+<Grid container columnSpacing={8} rowSpacing={4}>
+  {cards}
+</Grid>
+</Container>
+
+<Container sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+<Pagination onChange={(e, pageNumber) => changePage(pageNumber)} variant="outlined" color="secondary" sx={{
+  marginTop: "5%",
+  marginBottom: "3%",
+
+  "& .MuiPaginationItem-root": {
+    color: "primary.contrastText"
+  }
+}} count={props.totalPages} />
+</Container> */}
+
+
+
+
+
+
+// const cards = (items.map((prev: { title: string; image_path: string; items_uid: string, price: number, rating: number }) => {
+//   return (
+//     <Grid item key={uuid()} xs={12} md={4} lg={3}>
+//       <ShoppingPageCard
+//         key={uuid()}
+//         items_uid={prev.items_uid}
+//         title={prev.title}
+//         image_path={prev.image_path}
+//         price={prev.price}
+//         rating={prev.rating}
+//       />
+//     </Grid>
+//   );
+// }));
